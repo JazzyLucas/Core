@@ -1,0 +1,17 @@
+{
+    "name": "JazzyLucas.Core",
+    "rootNamespace": "JazzyLucas.Core",
+    "references": [
+        "GUID:a5d88a2b80b9fb545aa58bdbafb48953",
+        "GUID:a96716e974b07554e89130771eb283d9"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
