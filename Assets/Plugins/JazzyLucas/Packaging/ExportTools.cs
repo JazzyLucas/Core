@@ -1,23 +1,59 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
+using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEditor;
+using L = JazzyLucas.Core.Utils.Logger;
 
 namespace JazzyLucas.Packaging
 {
     public static class ExportTools
     {
-        private const string NAME = "JazzyLucas_Core";
-        private static readonly string VERSION = System.Environment.GetCommandLineArgs().FirstOrDefault(arg => arg.StartsWith("version="))?.Split('=')[1]; // (For use with GitHub Actions)
-        private static readonly string FILE_NAME = $"{NAME}_v{VERSION}.unitypackage";
-        private static readonly string[] CONTENT_PATHS = { "Assets/Plugins/JazzyLucas" };
-        
+        private const string PACKAGE_JSON_PATH = "Assets/Plugins/JazzyLucas/package.json";
+        private const string EXPORT_PATH = "Assets/Plugins/JazzyLucas";
+        private const string BUILDS_FOLDER_NAME = "Builds";
+
         [MenuItem("JazzyLucas/Packaging/Export")]
-        private static void Export()
+        public static void Export()
         {
-            AssetDatabase.ExportPackage(CONTENT_PATHS, FILE_NAME, ExportPackageOptions.Recurse | ExportPackageOptions.IncludeDependencies);
-            Debug.Log($"Exported {FILE_NAME}");
+            if (!File.Exists(PACKAGE_JSON_PATH))
+            {
+                L.Log("package.json not found!");
+                return;
+            }
+
+            var packageJson = JsonUtility.FromJson<PackageJson>(File.ReadAllText(PACKAGE_JSON_PATH));
+            var versionParts = packageJson.version.Split('.');
+            var patchVersion = int.Parse(versionParts[2]);
+            versionParts[2] = (patchVersion + 1).ToString();
+            var newVersion = string.Join(".", versionParts);
+
+            packageJson.version = newVersion;
+            File.WriteAllText(PACKAGE_JSON_PATH, JsonUtility.ToJson(packageJson, true));
+
+            var packageName = packageJson.name.Replace("com.", "").Replace(".", "_");
+            var fileName = $"{packageName}_v{newVersion}.unitypackage";
+            var buildsFolderPath = Path.Combine(Path.GetDirectoryName(Application.dataPath) ?? throw new InvalidOperationException(), BUILDS_FOLDER_NAME);
+
+            if (!Directory.Exists(buildsFolderPath))
+                Directory.CreateDirectory(buildsFolderPath);
+
+            var filePath = Path.Combine(buildsFolderPath, fileName);
+
+            AssetDatabase.ExportPackage(EXPORT_PATH, filePath, ExportPackageOptions.Recurse | ExportPackageOptions.IncludeDependencies);
+            L.Log($"<color=white>Exported </color>" +
+                  $"<color=green>{fileName}</color>" +
+                  $"<color=white> to </color>" +
+                  $"<color=blue>{filePath}</color>");
         }
+    }
+    
+    [Serializable]
+    public struct PackageJson
+    {
+        public string name;
+        public string version;
+        public string displayName;
+        public string unity;
     }
 }

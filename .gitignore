@@ -168,3 +168,6 @@ UserSettings/Search.settings
 
 # PhotonEngine Fusion
 /[Aa]ssets/Photon/Fusion/Resources/PhotoAppSettings.asset
+
+# Ignore Builds folder
+Builds/

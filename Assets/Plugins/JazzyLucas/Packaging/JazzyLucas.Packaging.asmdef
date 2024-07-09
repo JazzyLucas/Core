@@ -2,7 +2,8 @@
     "name": "JazzyLucas.Packaging",
     "rootNamespace": "JazzyLucas.Packaging",
     "references": [
-        "GUID:617a9c18fe408e648ab957c0eba9a65c"
+        "GUID:617a9c18fe408e648ab957c0eba9a65c",
+        "GUID:a5d88a2b80b9fb545aa58bdbafb48953"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
