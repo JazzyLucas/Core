@@ -485,6 +485,39 @@
                 },
                 {
                     "name": "",
+                    "id": "58e33c61-ab25-4ed8-9ad7-6a56101dc405",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "R",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a548a253-8779-4471-a81a-59e366035640",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Ctrl",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a4bb140e-443b-4500-b980-d31821e85df5",
+                    "path": "<Keyboard>/b",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Ctrl",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "fed740fc-4271-4917-b9cf-324e9b7b30e9",
                     "path": "<Keyboard>/numpad1",
                     "interactions": "",
@@ -700,39 +733,6 @@
                     "processors": "Scale(factor=10)",
                     "groups": "",
                     "action": "NumKey",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "58e33c61-ab25-4ed8-9ad7-6a56101dc405",
-                    "path": "<Keyboard>/r",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "R",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "a548a253-8779-4471-a81a-59e366035640",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Ctrl",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "a4bb140e-443b-4500-b980-d31821e85df5",
-                    "path": "<Keyboard>/b",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Ctrl",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

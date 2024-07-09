@@ -24,7 +24,7 @@ using UnityEditor;
 //         as modified despite having just reverted. This only happens the fist time, and reverting again 
 //         fixes it. Under the hood the state is still always valid, and serialized correctly regardless.
 
-namespace JazzyLucas.Utils
+namespace JazzyLucas.Core.Utils
 {
     /// <summary>
     /// A wrapper that provides the means to safely serialize Scene Asset References.

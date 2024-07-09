@@ -1,0 +1,1 @@
+For information on licensing, issues, and more, please visit the [Core GitHub Repository](https://github.com/JazzyLucas/Core).

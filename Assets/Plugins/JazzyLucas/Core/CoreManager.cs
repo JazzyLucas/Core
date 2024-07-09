@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using JazzyLucas.Utils;
-using L = JazzyLucas.Utils.Logger;
+using JazzyLucas.Core.Utils;
+using L = JazzyLucas.Core.Utils.Logger;
 
 namespace JazzyLucas.Core
 {

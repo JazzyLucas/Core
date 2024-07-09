@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace JazzyLucas.Utils
+namespace JazzyLucas.Core.Utils
 {
     public static class RaycastUtils
     {

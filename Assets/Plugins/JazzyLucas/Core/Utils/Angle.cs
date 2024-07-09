@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using UnityEngine;
 
-namespace JazzyLucas.Utils
+namespace JazzyLucas.Core.Utils
 {
   /// <summary>
   /// An Angle struct similar to what's used in PhotonEngine's Fusion multiplayer library.

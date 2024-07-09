@@ -3,7 +3,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-namespace JazzyLucas.Utils
+namespace JazzyLucas.Core.Utils
 {
     public abstract class Logger
     {

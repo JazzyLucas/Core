@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace JazzyLucas.Utils
+namespace JazzyLucas.Core.Utils
 {
     public static class UIToolkitUtil
     {

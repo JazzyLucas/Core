@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace JazzyLucas.Utils
+namespace JazzyLucas.Core.Utils
 {
     /// <summary>
     /// Utilities for angles.

@@ -1,4 +1,4 @@
-﻿namespace JazzyLucas.Core
+﻿namespace JazzyLucas.Core.Utils
 {
     [System.Serializable]
     public class RaycastInfo

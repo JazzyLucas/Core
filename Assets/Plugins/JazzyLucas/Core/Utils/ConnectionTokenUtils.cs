@@ -1,6 +1,6 @@
 using System;
 
-namespace JazzyLucas.Utils
+namespace JazzyLucas.Core.Utils
 {
     /// <summary>
     /// Token Utility methods

@@ -1,8 +1,8 @@
 using JazzyLucas.Core;
-using JazzyLucas.Input;
+using JazzyLucas.Core.Input;
 using UnityEngine;
 
-namespace JazzyLucas.Core
+namespace JazzyLucas.Core.Input
 {
     public abstract class InputPoller
     {

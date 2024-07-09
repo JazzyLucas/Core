@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEditor;
 
-namespace JazzyLucas.Utils
+namespace JazzyLucas.Core.Utils
 {
     [System.Serializable]
     public class HiddenField

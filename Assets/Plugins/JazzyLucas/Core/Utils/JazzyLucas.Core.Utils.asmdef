@@ -1,10 +1,7 @@
 {
-    "name": "JazzyLucas.Input",
-    "rootNamespace": "JazzyLucas.Input",
-    "references": [
-        "GUID:a5d88a2b80b9fb545aa58bdbafb48953",
-        "GUID:75469ad4d38634e559750d17036d5f7c"
-    ],
+    "name": "JazzyLucas.Core.Utils",
+    "rootNamespace": "JazzyLucas.Core.Utils",
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
