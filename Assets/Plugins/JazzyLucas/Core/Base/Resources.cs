@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace JazzyLucas.Core
 {
-    public abstract class Resource
+    public abstract class Resources : ScriptableObject
     {
         
     }
