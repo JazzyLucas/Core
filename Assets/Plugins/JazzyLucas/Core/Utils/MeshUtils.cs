@@ -30,7 +30,7 @@ namespace JazzyLucas.Core.Utils
         {
             if (primMesh == null)
             {
-                primMesh = Resources.GetBuiltinResource<Mesh>(GetPrimitiveMeshPath(primitiveType));
+                primMesh = UnityEngine.Resources.GetBuiltinResource<Mesh>(GetPrimitiveMeshPath(primitiveType));
             }
             return primMesh;
         }

@@ -2,8 +2,8 @@
     "name": "JazzyLucas.Core",
     "rootNamespace": "JazzyLucas.Core",
     "references": [
-        "GUID:a5d88a2b80b9fb545aa58bdbafb48953",
-        "GUID:a96716e974b07554e89130771eb283d9"
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:09dcc9c0126b6b34ab2a877b8f2277f5"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
