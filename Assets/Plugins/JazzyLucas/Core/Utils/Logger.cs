@@ -1,7 +1,12 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using UnityEditor.PackageManager;
+using UnityEditor.VersionControl;
 using UnityEngine;
+using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 namespace JazzyLucas.Core.Utils
 {
@@ -14,7 +19,7 @@ namespace JazzyLucas.Core.Utils
         {
             {Color.red, "red"},
             {Color.yellow, "yellow"},
-            {Color.green, "blue"},
+            {Color.green, "green"},
             //{Color.cyan, "cyan"}, // for some reason cyan and magenta logging is buggy
             {Color.blue, "blue"},
             //{Color.magenta, "magenta"},
@@ -46,15 +51,49 @@ namespace JazzyLucas.Core.Utils
             if (prefixColor == default)
                 prefixColor = GetRandomColorEntry().Key;
             senders.TryAdd(sender, prefixColor);
-            DoLog(senders[sender], sender.name, message, sender);
+            DoComplexLog(senders[sender], sender.name, message, sender);
         }
-        private static void DoLog(Color prefixColor, string prefix, string message, Object sender)
+        public static void Log(LogSeverity severity, string message)
         {
-            Debug.Log($"<color={_colors[_loggerSymbolColor]}>{LOGGER_SYMBOL}</color> <color={_colors[prefixColor]}>{prefix}:</color> <color={_colors[_messageColor]}>{message}</color>", sender);
+            var logMessage = $"<color={_colors[_loggerSymbolColor]}>{LOGGER_SYMBOL}</color> " +
+                             $"<color={_colors[Color.white]}>:</color> " +
+                             $"<color={_colors[_messageColor]}>{message}</color>";
+            DoSimpleLog(logMessage, severity);
         }
         public static void Log(string message)
         {
-            Debug.Log($"<color={_colors[_loggerSymbolColor]}>{LOGGER_SYMBOL}</color> <color={_colors[Color.white]}>:</color> <color={_colors[_messageColor]}>{message}</color>");
+            var logMessage = $"<color={_colors[_loggerSymbolColor]}>{LOGGER_SYMBOL}</color> " +
+                             $"<color={_colors[Color.white]}>:</color> " +
+                             $"<color={_colors[_messageColor]}>{message}</color>";
+            DoSimpleLog(logMessage);
         }
+        
+        private static void DoSimpleLog(string message, LogSeverity severity = LogSeverity.INFO)
+        {
+            switch (severity)
+            {
+                case LogSeverity.WARNING:
+                    Debug.LogWarning(message);
+                    break;
+                case LogSeverity.ERROR:
+                    Debug.LogError(message);
+                    break;
+                case LogSeverity.INFO:
+                default:
+                    Debug.Log(message);
+                    break;
+            }
+        }
+        private static void DoComplexLog(Color prefixColor, string prefix, string message, Object sender)
+        {
+            Debug.Log($"<color={_colors[_loggerSymbolColor]}>{LOGGER_SYMBOL}</color> <color={_colors[prefixColor]}>{prefix}:</color> <color={_colors[_messageColor]}>{message}</color>", sender);
+        }
+    }
+
+    public enum LogSeverity
+    {
+        INFO,
+        WARNING,
+        ERROR,
     }
 }
