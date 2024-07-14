@@ -171,3 +171,5 @@ UserSettings/Search.settings
 
 # Ignore Builds folder
 Builds/
+Assets/Plugins/JazzyLucas/Editor/AssetReferenceScriptGeneratorConfig.asset
+Assets/Plugins/JazzyLucas/Editor/AssetReferenceScriptGeneratorConfig.asset.meta

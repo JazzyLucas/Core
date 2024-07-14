@@ -86,7 +86,9 @@ namespace JazzyLucas.Core.Utils
         }
         private static void DoComplexLog(Color prefixColor, string prefix, string message, Object sender)
         {
-            Debug.Log($"<color={_colors[_loggerSymbolColor]}>{LOGGER_SYMBOL}</color> <color={_colors[prefixColor]}>{prefix}:</color> <color={_colors[_messageColor]}>{message}</color>", sender);
+            Debug.Log($"<color={_colors[_loggerSymbolColor]}>{LOGGER_SYMBOL}</color> " +
+                      $"<color={_colors[prefixColor]}>{prefix}:</color> " +
+                      $"<color={_colors[_messageColor]}>{message}</color>", sender);
         }
     }
 

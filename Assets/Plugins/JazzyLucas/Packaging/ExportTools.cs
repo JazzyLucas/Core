@@ -13,7 +13,7 @@ namespace JazzyLucas.Packaging
         private const string EXPORT_PATH = "Assets/Plugins/JazzyLucas";
         private const string BUILDS_FOLDER_NAME = "Builds";
 
-        [MenuItem("JazzyLucas/Packaging/Export")]
+        [MenuItem("Tools/JazzyLucas/Export Package")]
         public static void Export()
         {
             if (!File.Exists(PACKAGE_JSON_PATH))
