@@ -11,10 +11,23 @@ namespace JazzyLucas.Core
         public void Inject(Manager manager) => BaseManager = manager;
         
         #region EVENTS
-        public event Action<Behavior> BSpawnedEvent;
-        public void InvokeBSpawnedEvent(Behavior B) => BSpawnedEvent?.Invoke(B);
-        public event Action<Behavior> BDestroyedEvent;
-        public void InvokeBDestroyedEvent(Behavior B) => BDestroyedEvent?.Invoke(B);
+        public event Action<Behavior<Blueprint, Data<Blueprint>>> BSpawnedEvent;
+        public void InvokeBSpawnedEvent<TBlueprint, TData>(Behavior<TBlueprint, TData> B)
+            where TBlueprint : Blueprint
+            where TData : Data<TBlueprint>
+        {
+            // Casting the event arguments to match the event signature
+            BSpawnedEvent?.Invoke(B as Behavior<Blueprint, Data<Blueprint>>);
+        }
+
+        public event Action<Behavior<Blueprint, Data<Blueprint>>> BDestroyedEvent;
+        public void InvokeBDestroyedEvent<TBlueprint, TData>(Behavior<TBlueprint, TData> B)
+            where TBlueprint : Blueprint
+            where TData : Data<TBlueprint>
+        {
+            // Casting the event arguments to match the event signature
+            BDestroyedEvent?.Invoke(B as Behavior<Blueprint, Data<Blueprint>>);
+        }
         #endregion
     }
 }
