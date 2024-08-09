@@ -1,25 +1,42 @@
 using JazzyLucas.Core;
 using JazzyLucas.Core.Input;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using L = JazzyLucas.Core.Utils.Logger;
 
 namespace JazzyLucas.Core.Input
 {
-    public abstract class InputPoller
+    public sealed class InputPoller
     {
         private readonly InputActions _inputActions;
+        public bool Enabled { get; private set; }
 
         // Constructor
-        protected InputPoller()
+        public InputPoller()
         {
             _inputActions = new();
-            Disable();
+            Enable();
         }
 
-        public void Enable() => _inputActions.Enable();
-        public void Disable() => _inputActions.Disable();
+        public void Enable()
+        {
+            _inputActions.Enable();
+            Enabled = true;
+        }
+
+        public void Disable()
+        {
+            _inputActions.Disable();
+            Enabled = false;
+        }
 
         public InputData PollInput()
         {
+            if (!Enabled)
+            {
+                L.Log($"PollInput was called on an InputPoller than is not enabled.");
+            }
+            
             InputData data = new();
 
             var wasdCache = _inputActions.Player.WASD.ReadValue<Vector2>();
