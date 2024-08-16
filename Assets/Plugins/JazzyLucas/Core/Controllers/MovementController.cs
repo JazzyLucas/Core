@@ -1,35 +1,29 @@
+using System;
 using JazzyLucas.Core.Input;
 using UnityEngine;
 
 namespace JazzyLucas.Core
 {
-    public enum MovementState
-    {
-        Grounded,
-        Flying
-    }
-
     public class MovementController : MonoBehaviour
     {
         [field: SerializeField] public Transform DirectionTransform { get; private set; }
         [field: SerializeField] public CharacterController CharacterController { get; private set; }
-        public Transform Transform => CharacterController.transform;
+        private Transform Transform => CharacterController.transform;
 
         private InputPoller inputPoller;
         private MovementState currentState;
 
-        private float walkSpeed = 2f;
-        private float runSpeed = 4f;
-        private float jumpForce = 1f;
-        private float flySpeed = 4f;
-        private float fastFlySpeed = 8f;
+        [field: SerializeField] public float walkSpeed { get; private set; } = 2f;
+        [field: SerializeField] public float runSpeed { get; private set; } = 4f;
+        [field: SerializeField] public float jumpForce { get; private set; } = 1f;
+        [field: SerializeField] public float flySpeed { get; private set; } = 4f;
 
         private Vector3 velocity = Vector3.zero;
         private Vector3 lastMovementDirection = Vector3.zero; // Persist the last movement direction
 
         protected virtual void Awake()
         {
-            inputPoller = new InputPoller();
+            inputPoller = new();
         }
 
         protected virtual void Update()
@@ -41,12 +35,13 @@ namespace JazzyLucas.Core
 
         private void HandleInput()
         {
-            InputData input = inputPoller.PollInput();
-            MovementInputData movementData = MovementInputData.GetFromPlayerInputStruct(input);
+            var input = inputPoller.PollInput();
+            var movementData = MovementInputData.GetFromPlayerInputStruct(input);
 
             if (movementData.toggleFlying)
                 ToggleFlying();
 
+            // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
             switch (currentState)
             {
                 case MovementState.Grounded:
@@ -69,7 +64,7 @@ namespace JazzyLucas.Core
 
         private void HandleGroundedMovement(MovementInputData input)
         {
-            Vector3 moveDirection = CalculateMovementDirection(input) * GetCurrentSpeed(input.isSprinting);
+            var moveDirection = CalculateMovementDirection(input) * GetCurrentSpeed(input.isSprinting);
 
             if (CharacterController.isGrounded)
             {
@@ -93,7 +88,7 @@ namespace JazzyLucas.Core
 
         private void HandleFlyingMovement(MovementInputData input)
         {
-            Vector3 moveDirection = CalculateMovementDirection(input) * GetCurrentSpeed(input.isSprinting);
+            var moveDirection = CalculateMovementDirection(input) * GetCurrentSpeed(input.isSprinting);
 
             float verticalMovement = 0f;
             if (input.isJumping) verticalMovement = flySpeed;
@@ -113,11 +108,11 @@ namespace JazzyLucas.Core
         private Vector3 CalculateMovementDirection(MovementInputData input)
         {
             // Get forward and right directions from the camera, but ignore the y component to lock to XZ plane
-            Vector3 forwardMovement = Vector3.ProjectOnPlane(DirectionTransform.forward, Vector3.up).normalized * input.moveInput.y;
-            Vector3 rightMovement = Vector3.ProjectOnPlane(DirectionTransform.right, Vector3.up).normalized * input.moveInput.x;
+            var forwardMovement = Vector3.ProjectOnPlane(DirectionTransform.forward, Vector3.up).normalized * input.moveInput.y;
+            var rightMovement = Vector3.ProjectOnPlane(DirectionTransform.right, Vector3.up).normalized * input.moveInput.x;
 
             // Combine and normalize the movement direction
-            Vector3 moveDirection = (forwardMovement + rightMovement).normalized;
+            var moveDirection = (forwardMovement + rightMovement).normalized;
 
             return moveDirection;
         }
@@ -138,5 +133,11 @@ namespace JazzyLucas.Core
             // Use the last known movement direction to draw the debug ray
             Debug.DrawRay(Transform.position, lastMovementDirection * 2f, Color.green);
         }
+    }
+    
+    public enum MovementState
+    {
+        Grounded,
+        Flying
     }
 }

@@ -60,6 +60,7 @@ namespace JazzyLucas.Core.Utils
                              $"<color={_colors[_messageColor]}>{message}</color>";
             DoSimpleLog(logMessage, severity);
         }
+        // ReSharper disable Unity.PerformanceAnalysis
         public static void Log(string message)
         {
             var logMessage = $"<color={_colors[_loggerSymbolColor]}>{LOGGER_SYMBOL}</color> " +
