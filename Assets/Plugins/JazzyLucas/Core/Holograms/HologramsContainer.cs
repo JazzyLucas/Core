@@ -7,4 +7,5 @@ using UnityEngine;
 public class HologramsContainer : Container
 {
     [field: SerializeField] public TextHologram TextHologramPrefab { get; private set; }
+    // (later add more holograms here)
 }

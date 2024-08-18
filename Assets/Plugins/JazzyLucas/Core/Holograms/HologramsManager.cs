@@ -12,7 +12,6 @@ public class HologramsManager : Manager<HologramsContainer>
 
     public override void Init()
     {
-        Debug.Log("Hello");
         if (!MainCamera)
             MainCamera = Camera.main;
 
