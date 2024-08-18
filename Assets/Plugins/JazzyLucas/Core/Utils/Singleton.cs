@@ -6,8 +6,6 @@ namespace JazzyLucas.Core.Utils
 {
     public abstract class Singleton<T> : MonoBehaviour where T : Component
     {
-        protected bool Initialized;
-        
         private static T _instance;
 
         public static T Instance
@@ -29,7 +27,6 @@ namespace JazzyLucas.Core.Utils
                 _instance = this as T;
                 Init();
                 DontDestroyOnLoad(gameObject);
-                Initialized = true;
             }
             else
             {
@@ -40,6 +37,6 @@ namespace JazzyLucas.Core.Utils
         /// <summary>
         /// Use this for initialization.
         /// </summary>
-        protected abstract void Init();
+        public abstract void Init();
     }
 }
