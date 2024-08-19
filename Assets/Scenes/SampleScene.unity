@@ -133,7 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 144711326}
   m_Layer: 0
-  m_Name: Viewpoint
+  m_Name: Viewpoint (FPS)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -152,6 +152,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 883169048}
   - {fileID: 665073688}
   - {fileID: 1174763160}
   m_Father: {fileID: 383854457}
@@ -1130,6 +1131,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1755443248}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &883169047
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 883169048}
+  m_Layer: 0
+  m_Name: Viewpoint (TPS)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &883169048
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 883169047}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -2.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 144711326}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &893133308
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1627,6 +1659,7 @@ GameObject:
   - component: {fileID: 1473935251}
   - component: {fileID: 1473935253}
   - component: {fileID: 1473935252}
+  - component: {fileID: 1473935254}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1681,6 +1714,21 @@ MonoBehaviour:
   <runSpeed>k__BackingField: 4
   <jumpForce>k__BackingField: 1
   <flySpeed>k__BackingField: 4
+--- !u!114 &1473935254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1473935250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5041fbf23f531a140870660bb148c622, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <FirstPerson_ViewTransform>k__BackingField: {fileID: 144711326}
+  <ThirdPerson_ViewTransform>k__BackingField: {fileID: 883169048}
+  <MainCamera>k__BackingField: {fileID: 1174763162}
 --- !u!1 &1499946929
 GameObject:
   m_ObjectHideFlags: 0
