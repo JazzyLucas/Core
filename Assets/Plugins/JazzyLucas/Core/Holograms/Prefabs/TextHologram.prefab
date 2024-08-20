@@ -85,6 +85,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3871936753921637794}
   - component: {fileID: 2730717541251330527}
+  - component: {fileID: 3968949034476298233}
   m_Layer: 5
   m_Name: TextHologram
   m_TagString: Untagged
@@ -125,11 +126,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ab97f75cf475c649a2bb10972f852d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scaleFactor: 10
-  minScale: 1
-  maxScale: 10
+  <Transform>k__BackingField: {fileID: 3871936753921637794}
+  <CanvasGroup>k__BackingField: {fileID: 3968949034476298233}
+  <scaleFactor>k__BackingField: 10
+  <minScale>k__BackingField: 1
+  <maxScale>k__BackingField: 10
   <Text>k__BackingField: {fileID: 501643598029947015}
   <TextBackground>k__BackingField: {fileID: 113662305033922411}
+--- !u!225 &3968949034476298233
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5921589258361207331}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &8100152497122955752
 GameObject:
   m_ObjectHideFlags: 0
