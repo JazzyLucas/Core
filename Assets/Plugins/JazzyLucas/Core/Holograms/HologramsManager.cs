@@ -4,27 +4,32 @@ using System.Collections.Generic;
 using JazzyLucas.Core;
 using UnityEngine;
 
-public class HologramsManager : Manager<HologramsContainer>
+namespace JazzyLucas.Core
 {
-    [field: SerializeField] public Canvas Canvas { get; private set; }
-    [field: Header("(Camera can be retrieved from Camera.main)")]
-    [field: SerializeField] public Camera MainCamera { get; private set; }
-
-    public override void Init()
+    public class HologramsManager : Manager<HologramsContainer>
     {
-        if (!MainCamera)
-            MainCamera = Camera.main;
+        [field: SerializeField] public Canvas Canvas { get; private set; }
 
-        // TODO: create a pool of Holograms and use those
-    }
+        [field: Header("(Camera can be retrieved from Camera.main)")]
+        [field: SerializeField]
+        public Camera MainCamera { get; private set; }
 
-    public TextHologram CreateTextHologram(Transform anchorTo)
-    {
-        var prefab = Container.TextHologramPrefab;
-        var newHologramGO = Instantiate(prefab, Canvas.transform);
-        var newHologram = newHologramGO.GetComponent<TextHologram>();
-        newHologram.MainCamera = MainCamera;
-        newHologram.AnchorTo = anchorTo;
-        return newHologram;
+        public override void Init()
+        {
+            if (!MainCamera)
+                MainCamera = Camera.main;
+
+            // TODO: create a pool of Holograms and use those
+        }
+
+        public TextHologram CreateTextHologram(Transform anchorTo)
+        {
+            var prefab = Container.TextHologramPrefab;
+            var newHologramGO = Instantiate(prefab, Canvas.transform);
+            var newHologram = newHologramGO.GetComponent<TextHologram>();
+            newHologram.MainCamera = MainCamera;
+            newHologram.AnchorTo = anchorTo;
+            return newHologram;
+        }
     }
 }

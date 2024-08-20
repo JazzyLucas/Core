@@ -4,10 +4,13 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TextHologram : Hologram
+namespace JazzyLucas.Core
 {
-    [field: SerializeField] public TextMeshProUGUI Text { get; private set; }
-    [field: SerializeField] public Image TextBackground { get; private set; }
+    public class TextHologram : Hologram
+    {
+        [field: SerializeField] public TextMeshProUGUI Text { get; private set; }
+        [field: SerializeField] public Image TextBackground { get; private set; }
     
-    // TODO: resizing image based on text
+        // TODO: resizing image based on text
+    }
 }
