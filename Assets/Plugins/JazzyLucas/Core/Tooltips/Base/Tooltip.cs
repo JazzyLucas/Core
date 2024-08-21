@@ -24,19 +24,21 @@ namespace JazzyLucas.Core
             var tooltipWidth = Transform.rect.width;
             var tooltipHeight = Transform.rect.height;
 
-            var offset = new Vector2(tooltipWidth/1.5f, -tooltipHeight/1.5f);
-
-            // Initial position (southeast of the cursor)
+            var offset = new Vector2(tooltipWidth / 1.5f, -tooltipHeight / 1.5f);
             var initialPosition = cursorPosition + offset;
-            
-            // Clamp the X position to ensure the tooltip is within screen width
-            float finalX = Mathf.Clamp(initialPosition.x, 0, screenWidth - tooltipWidth/2);
 
-            // Clamp the Y position to ensure the tooltip is within screen height
-            float finalY = Mathf.Clamp(initialPosition.y, tooltipHeight/2, screenHeight);
+            // Check if the tooltip would go off the right or bottom edge of the screen
+            bool offRight = initialPosition.x + tooltipWidth / 2 > screenWidth;
+            bool offBottom = initialPosition.y - tooltipHeight / 2 < 0;
 
-            // Apply the clamped position to the tooltip
-            Transform.position = new Vector2(finalX, finalY);
+            // Flip the offset direction if needed
+            if (offRight) 
+                offset.x = -offset.x;
+            if (offBottom) 
+                offset.y = -offset.y;
+
+            var finalPosition = cursorPosition + offset;
+            Transform.position = new Vector2(finalPosition.x, finalPosition.y);
         }
     }
 }
