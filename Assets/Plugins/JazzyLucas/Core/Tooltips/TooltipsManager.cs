@@ -8,25 +8,20 @@ namespace JazzyLucas.Core
     {
         [field: SerializeField] public Canvas Canvas { get; private set; }
 
-        [field: Header("(Camera can be retrieved from Camera.main)")]
-        [field: SerializeField] public Camera MainCamera { get; private set; }
-
         public override void Init()
         {
-            if (!MainCamera)
-                MainCamera = Camera.main;
-
-            // TODO: create a pool of Tooltips and use those
+            
         }
 
-        public TextTooltip CreateTextTooltip(Transform anchorTo)
+        public TextTooltip CreateTextTooltip()
         {
-            var prefab = Container.TextTooltipPrefab;
-            var newTooltipGO = Instantiate(prefab, Canvas.transform);
-            var newTooltip = newTooltipGO.GetComponent<TextTooltip>();
-            newTooltip.MainCamera = MainCamera;
-            newTooltip.AnchorTo = anchorTo;
-            return newTooltip;
+            var tooltip = Instantiate(Container.TextTooltipPrefab, Canvas.transform);
+            return tooltip;
+        }
+
+        public void ReturnTooltip(TextTooltip tooltip)
+        {
+            Destroy(tooltip.gameObject);
         }
     }
 }

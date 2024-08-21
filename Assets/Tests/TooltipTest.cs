@@ -2,16 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using JazzyLucas.Core;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class TooltipTest : MonoBehaviour
+public class TooltipTest : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerMoveHandler
 {
     private TooltipsManager tooltipsManager => (TooltipsManager)TooltipsManager.Instance;
     private TooltipsContainer tooltipsContainer => tooltipsManager.Container;
+    
+    private TextTooltip activeTooltip;
 
-    [field: SerializeField] public Transform tooltipPoint { get; private set; }
-
-    private void Start()
+    public void OnPointerEnter(PointerEventData eventData)
     {
-        var tooltip = tooltipsManager.CreateTextTooltip(tooltipPoint);
+        activeTooltip = tooltipsManager.CreateTextTooltip();
+        activeTooltip.Text.text = "Your tooltip text here.";
+    }
+
+    public void OnPointerMove(PointerEventData eventData)
+    {
+        if (activeTooltip != null)
+        {
+            // Optionally update the tooltip content or position
+        }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (activeTooltip != null)
+        {
+            tooltipsManager.ReturnTooltip(activeTooltip);
+            activeTooltip = null;
+        }
     }
 }

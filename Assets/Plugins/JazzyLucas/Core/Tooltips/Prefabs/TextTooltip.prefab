@@ -84,7 +84,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8065718655536916339}
-  - component: {fileID: 6775754855486377578}
+  - component: {fileID: 2435570192136057251}
   - component: {fileID: 2890895225497010411}
   m_Layer: 5
   m_Name: TextTooltip
@@ -114,7 +114,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &6775754855486377578
+--- !u!114 &2435570192136057251
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -123,7 +123,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4539406982872313991}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ab97f75cf475c649a2bb10972f852d1, type: 3}
+  m_Script: {fileID: 11500000, guid: d4fb321161898274f8a654f323d3c872, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   <Transform>k__BackingField: {fileID: 8065718655536916339}
@@ -132,7 +132,6 @@ MonoBehaviour:
   <minScale>k__BackingField: 1
   <maxScale>k__BackingField: 10
   <Text>k__BackingField: {fileID: 1887076192958734905}
-  <TextBackground>k__BackingField: {fileID: 1006341630469275948}
 --- !u!225 &2890895225497010411
 CanvasGroup:
   m_ObjectHideFlags: 0

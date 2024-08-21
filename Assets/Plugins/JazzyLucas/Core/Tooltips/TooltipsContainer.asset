@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b0ca1c4eda03d74d887814797924c65, type: 3}
   m_Name: TooltipsContainer
   m_EditorClassIdentifier: 
-  <TextTooltipPrefab>k__BackingField: {fileID: 0}
+  <TextTooltipPrefab>k__BackingField: {fileID: 2435570192136057251, guid: 3aaff239bf9a5194e82c55163ac96ae4, type: 3}
