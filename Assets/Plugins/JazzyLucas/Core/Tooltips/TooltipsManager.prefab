@@ -76,7 +76,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 1280, y: 720}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -148,4 +148,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Container: {fileID: 11400000, guid: 42a279392c63c904db4a100fbbfddfcf, type: 2}
   <Canvas>k__BackingField: {fileID: 1124907192153885581}
-  <MainCamera>k__BackingField: {fileID: 0}
