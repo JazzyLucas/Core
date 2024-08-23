@@ -11,7 +11,7 @@ namespace JazzyLucas.Core.Utils
             var start = transform.position;
             var direction = transform.forward;
 
-            Debug.DrawLine(start, start + direction * 100, color == default ? Color.green : color);
+            Debug.DrawLine(start, start + direction * 100, color == default ? Color.green : color); // TODO: adjustable raycast distance
             if (Physics.Raycast(start, direction, out var hit, 100))
             {
                 go = hit.collider.gameObject;

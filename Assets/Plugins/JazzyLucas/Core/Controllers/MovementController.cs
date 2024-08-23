@@ -36,7 +36,7 @@ namespace JazzyLucas.Core
         private void HandleInput()
         {
             var input = inputPoller.PollInput();
-            var movementData = MovementInputData.GetFromPlayerInputStruct(input);
+            var movementData = MovementInputData.GetFromInputData(input);
 
             if (movementData.toggleFlying)
                 ToggleFlying();
@@ -133,6 +133,26 @@ namespace JazzyLucas.Core
             // Use the last known movement direction to draw the debug ray
             Debug.DrawRay(Transform.position, lastMovementDirection * 2f, Color.green);
         }
+    }
+    
+    public struct MovementInputData
+    {
+        public static MovementInputData GetFromInputData(InputData inputData)
+        {
+            return new()
+            {
+                moveInput = inputData.WASD,
+                isSprinting = inputData.Shift,
+                isJumping = inputData.Spacebar,
+                isCrouching = inputData.Ctrl,
+                toggleFlying = inputData.F,
+            };
+        }
+        public Vector2 moveInput { get; private set; }
+        public bool isSprinting { get; private set; }
+        public bool isJumping { get; private set; }
+        public bool isCrouching { get; private set; }
+        public bool toggleFlying { get; private set; }
     }
     
     public enum MovementState

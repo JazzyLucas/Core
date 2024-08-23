@@ -11,7 +11,6 @@
             RaycastHoldType = raycastHoldType;
         }
     }
-    
     public enum RaycastClickType
     {
         NONE,

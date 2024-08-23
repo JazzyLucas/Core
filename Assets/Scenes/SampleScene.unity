@@ -253,8 +253,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 330389542}
+  - component: {fileID: 330389544}
+  - component: {fileID: 330389543}
   m_Layer: 0
-  m_Name: HitscanTest TODO
+  m_Name: HitscanTest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -276,6 +278,34 @@ Transform:
   - {fileID: 780823804}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &330389543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330389539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90d79f9cf998def41aada85752ff3455, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Receiver>k__BackingField: {fileID: 330389544}
+  <Renderer>k__BackingField: {fileID: 780823806}
+  <HoveredMat>k__BackingField: {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  <ClickedMat>k__BackingField: {fileID: 2100000, guid: 8fdc8b533a9cb4f47b4bd02720a956e0, type: 2}
+--- !u!114 &330389544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330389539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c44835b26294c93b9b5ebfc05c479ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &336001376
 GameObject:
   m_ObjectHideFlags: 0
@@ -2059,6 +2089,7 @@ GameObject:
   - component: {fileID: 1473935253}
   - component: {fileID: 1473935252}
   - component: {fileID: 1473935254}
+  - component: {fileID: 1473935255}
   m_Layer: 28
   m_Name: Player
   m_TagString: Untagged
@@ -2095,6 +2126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ViewTransform>k__BackingField: {fileID: 144711326}
+  <LockCursorOnAwake>k__BackingField: 1
 --- !u!114 &1473935253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2137,6 +2169,22 @@ MonoBehaviour:
   <FirstPersonVisual_LayerMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 55
+--- !u!114 &1473935255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1473935250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ce39062890f2b144a91e132b8500afe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Transform>k__BackingField: {fileID: 144711326}
+  <LayerMask>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &1499946929
 GameObject:
   m_ObjectHideFlags: 0

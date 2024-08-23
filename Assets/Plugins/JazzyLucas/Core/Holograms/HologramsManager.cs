@@ -11,8 +11,7 @@ namespace JazzyLucas.Core
         [field: SerializeField] public Canvas Canvas { get; private set; }
 
         [field: Header("(Camera can be retrieved from Camera.main)")]
-        [field: SerializeField]
-        public Camera MainCamera { get; private set; }
+        [field: SerializeField] public Camera MainCamera { get; private set; }
 
         public override void Init()
         {
