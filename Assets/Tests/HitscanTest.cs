@@ -9,9 +9,11 @@ public class HitscanTest : MonoBehaviour
     [field: SerializeField] public HitscanReceiver Receiver { get; private set; }
     [field: SerializeField] public Renderer Renderer { get; private set; }
     [field: SerializeField] public Material HoveredMat { get; private set; }
-    [field: SerializeField] public Material ClickedMat { get; private set; }
+    [field: SerializeField] public Material ClickingMat { get; private set; }
     
     [field: HideInInspector] public Material NormalMat { get; private set; }
+
+    [field: HideInInspector] public bool IsHitscannedOn { get; private set; } = false;
 
     private void Awake()
     {
@@ -20,8 +22,12 @@ public class HitscanTest : MonoBehaviour
         Receiver.OnHitscan += (data) =>
         {
             Renderer.material = HoveredMat;
-            if (data.HitscanClickType != HitscanClickType.NONE)
-                Renderer.material = ClickedMat;
+            if (data.LeftClickHold || data.RightClickHold)
+                Renderer.material = ClickingMat;
+        };
+        Receiver.OnUnHitscan += () =>
+        {
+            Renderer.material = NormalMat;
         };
     }
 }

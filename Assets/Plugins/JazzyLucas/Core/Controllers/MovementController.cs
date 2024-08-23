@@ -30,7 +30,7 @@ namespace JazzyLucas.Core
         {
             HandleInput();
             HandleRotation();
-            DrawMovementDirection(); // Draw the movement direction for debugging
+            Debug.DrawRay(Transform.position, lastMovementDirection * 0.2f, Color.green);
         }
 
         private void HandleInput()
@@ -126,12 +126,6 @@ namespace JazzyLucas.Core
         private float GetCurrentSpeed(bool isSprinting)
         {
             return isSprinting ? runSpeed : walkSpeed;
-        }
-
-        private void DrawMovementDirection()
-        {
-            // Use the last known movement direction to draw the debug ray
-            Debug.DrawRay(Transform.position, lastMovementDirection * 2f, Color.green);
         }
     }
     

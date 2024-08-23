@@ -14,7 +14,7 @@ namespace JazzyLucas.Core
         [field: SerializeField] public LayerMask LayerMask { get; private set; } = ~0;
 
         [field: HideInInspector] public GameObject CurrentHitscanGO { get; private set; }
-        [field: HideInInspector] public HitscanReceiver CurrentHitscan => CurrentHitscanGO == null ? null : CurrentHitscanGO.GetComponent<HitscanReceiver>();
+        [field: HideInInspector] public HitscanReceiver CurrentHitscan { get; private set; }
 
         private InputPoller inputPoller;
 
@@ -29,61 +29,39 @@ namespace JazzyLucas.Core
 
         public void Process()
         {
-            Ray.RaycastHitObject(out var go, Transform);
+            Ray.RaycastHitObject(out var newHitscanGO, Transform, LayerMask);
 
-            CurrentHitscanGO = go;
+            if (newHitscanGO != CurrentHitscanGO)
+            {
+                HandleHitscanChange(newHitscanGO);
+            }
 
-            if (CurrentHitscanGO == null)
-                return;
-            
-            var input = inputPoller.PollInput();
-            
-            var data = HitscanData.GetFromInputData(input);
-            
             if (CurrentHitscan != null)
-                CurrentHitscan.InvokeOnHitscan(data);
-            
-            //L.Log($"{raycastedOnGB.name} raycasted on! --- Type:{type} --- Mod:{mod}");
+            {
+                ProcessHitscan();
+            }
+        }
+        
+        private void HandleHitscanChange(GameObject newHitscanGO)
+        {
+            CurrentHitscan?.InvokeOnUnHitscan();
+
+            CurrentHitscanGO = newHitscanGO;
+            CurrentHitscan = CurrentHitscanGO?.GetComponent<HitscanReceiver>();
+
+            if (CurrentHitscan != null)
+            {
+                ProcessHitscan();
+            }
+        }
+
+        private void ProcessHitscan()
+        {
+            var input = inputPoller.PollInput();
+            CurrentHitscan.InvokeOnHitscan(input);
         }
     }
     
-    [System.Serializable]
-    public struct HitscanData
-    {
-        public HitscanHoldType HitscanHoldType { get; private set; }
-        public HitscanClickType HitscanClickType { get; private set; }
-        public InputData UsedInputData { get; private set; }
-        public static HitscanData GetFromInputData(InputData inputData)
-        {
-            var holdType = HitscanHoldType.NONE;
-            if (inputData.Shift)
-                holdType = HitscanHoldType.HOLDING_SHIFT;
-            else if (inputData.Ctrl)
-                holdType = HitscanHoldType.HOLDING_CTRL;
-            else if (!(inputData.LeftClick || inputData.RightClick) && inputData.LeftClickHold || inputData.RightClickHold)
-                holdType = HitscanHoldType.HOLDING_CLICK;
-
-            var clickType = HitscanClickType.NONE;
-            if (inputData.LeftClick || inputData.RightClick)
-            {
-                if (inputData.LeftClick)
-                {
-                    clickType = HitscanClickType.PRIMARY;
-                }
-                if (inputData.RightClick)
-                {
-                    clickType = HitscanClickType.SECONDARY;
-                }
-            }
-            
-            return new()
-            {
-                HitscanHoldType = holdType,
-                HitscanClickType = clickType,
-                UsedInputData = inputData,
-            };
-        }
-    }
     public enum HitscanClickType
     {
         NONE,
