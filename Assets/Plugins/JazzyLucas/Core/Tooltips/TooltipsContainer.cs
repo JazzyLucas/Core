@@ -8,6 +8,6 @@ namespace JazzyLucas.Core
     public class TooltipsContainer : Container
     {
         [field: SerializeField] public TextTooltip TextTooltipPrefab { get; private set; }
-        // (later add more holograms here)
+        // (later add more tooltips here)
     }
 }

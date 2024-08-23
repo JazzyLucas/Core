@@ -10,7 +10,11 @@ namespace JazzyLucas.Core
         [field: SerializeField] public Transform FirstPerson_ViewTransform { get; private set; }
         [field: SerializeField] public Camera MainCamera { get; private set; }
         [field: SerializeField] public float ThirdPersonDistance { get; private set; } = 5f;
-        [field: SerializeField] public LayerMask CollisionLayers { get; private set; } = ~0;
+        [field: SerializeField] public LayerMask CameraDistanceCollision_LayerMask { get; private set; } = ~0;
+        
+        [field: Header("Visuals")]
+        [field: SerializeField] public LayerMask ThirdPersonVisual_LayerMask { get; private set; } = ~0;
+        [field: SerializeField] public LayerMask FirstPersonVisual_LayerMask { get; private set; } = ~0;
 
         public bool IsFirstPerson { get; private set; }
 
@@ -18,9 +22,10 @@ namespace JazzyLucas.Core
 
         private void Awake()
         {
-            inputPoller = new InputPoller();
+            inputPoller = new();
             if (!MainCamera)
                 MainCamera = Camera.main;
+            AdjustVisibility();
         }
 
         private void Update()
@@ -44,6 +49,7 @@ namespace JazzyLucas.Core
                 {
                     AdjustThirdPersonCamera();
                 }
+                AdjustVisibility();
             }
 
             if (!IsFirstPerson)
@@ -57,7 +63,7 @@ namespace JazzyLucas.Core
             var desiredPosition = FirstPerson_ViewTransform.position - FirstPerson_ViewTransform.forward * ThirdPersonDistance;
             var directionToCamera = desiredPosition - FirstPerson_ViewTransform.position;
 
-            if (Physics.Raycast(FirstPerson_ViewTransform.position, directionToCamera, out RaycastHit hit, ThirdPersonDistance, CollisionLayers))
+            if (Physics.Raycast(FirstPerson_ViewTransform.position, directionToCamera, out RaycastHit hit, ThirdPersonDistance, CameraDistanceCollision_LayerMask))
             {
                 MainCamera.transform.position = hit.point - directionToCamera.normalized * 0.1f;
             }
@@ -69,5 +75,7 @@ namespace JazzyLucas.Core
             MainCamera.transform.LookAt(FirstPerson_ViewTransform);
             MainCamera.transform.SetParent(null);
         }
+
+        private void AdjustVisibility() => MainCamera.cullingMask = IsFirstPerson ? FirstPersonVisual_LayerMask : ThirdPersonVisual_LayerMask;
     }
 }

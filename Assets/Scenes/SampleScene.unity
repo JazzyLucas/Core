@@ -220,7 +220,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 144711326}
-  m_Layer: 0
+  m_Layer: 28
   m_Name: Viewpoint (FPS)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -500,7 +500,7 @@ GameObject:
   - component: {fileID: 383854455}
   - component: {fileID: 383854454}
   - component: {fileID: 383854458}
-  m_Layer: 0
+  m_Layer: 28
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -752,7 +752,7 @@ GameObject:
   - component: {fileID: 665073688}
   - component: {fileID: 665073691}
   - component: {fileID: 665073690}
-  m_Layer: 0
+  m_Layer: 28
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1922,7 +1922,7 @@ GameObject:
   - component: {fileID: 1174763160}
   - component: {fileID: 1174763162}
   - component: {fileID: 1174763161}
-  m_Layer: 0
+  m_Layer: 28
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -2059,7 +2059,7 @@ GameObject:
   - component: {fileID: 1473935253}
   - component: {fileID: 1473935252}
   - component: {fileID: 1473935254}
-  m_Layer: 0
+  m_Layer: 28
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2128,9 +2128,15 @@ MonoBehaviour:
   <FirstPerson_ViewTransform>k__BackingField: {fileID: 144711326}
   <MainCamera>k__BackingField: {fileID: 1174763162}
   <ThirdPersonDistance>k__BackingField: 5
-  <CollisionLayers>k__BackingField:
+  <CameraDistanceCollision_LayerMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 4294967295
+  <ThirdPersonVisual_LayerMask>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  <FirstPersonVisual_LayerMask>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 55
 --- !u!1 &1499946929
 GameObject:
   m_ObjectHideFlags: 0
