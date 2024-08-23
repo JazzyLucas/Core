@@ -9,6 +9,7 @@ namespace JazzyLucas.Core
     public class ViewController : MonoBehaviour
     {
         [field: SerializeField] public Transform ViewTransform { get; private set; }
+        [field: SerializeField] public bool LockCursorOnAwake { get; private set; } = true;
 
         private InputPoller inputPoller;
         
@@ -20,6 +21,8 @@ namespace JazzyLucas.Core
         private void Awake()
         {
             inputPoller = new();
+            if (LockCursorOnAwake)
+                Cursor.lockState = CursorLockMode.Locked;
         }
 
         private void Update()
@@ -29,6 +32,9 @@ namespace JazzyLucas.Core
 
         public void Process()
         {
+            if (Cursor.lockState != CursorLockMode.Locked)
+                return;
+            
             var input = inputPoller.PollInput();
             DoRotateCamera(input.MouseDelta);
         }
