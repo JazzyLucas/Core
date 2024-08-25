@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using JazzyLucas.Core.Input;
 using JazzyLucas.Core.Utils;
@@ -14,8 +16,8 @@ namespace JazzyLucas.Core
         [field: SerializeField] public bool FirstPersonOnAwake { get; private set; } = true;
         
         [field: Header("Visuals")]
-        [field: SerializeField] public LayerMask ThirdPersonVisual_LayerMask { get; private set; } = ~0;
-        [field: SerializeField] public LayerMask FirstPersonVisual_LayerMask { get; private set; } = ~0;
+        [field: SerializeField] public Transform ThirdPersonVisualsRoot { get; private set; }
+        [field: SerializeField] public Transform FirstPersonVisualsRoot { get; private set; }
 
         public bool IsFirstPerson { get; private set; }
 
@@ -79,6 +81,10 @@ namespace JazzyLucas.Core
             MainCamera.transform.SetParent(null);
         }
 
-        private void AdjustVisibility() => MainCamera.cullingMask = IsFirstPerson ? FirstPersonVisual_LayerMask : ThirdPersonVisual_LayerMask;
+        private void AdjustVisibility()
+        {
+            VisualUtils.ToggleVisuals(FirstPersonVisualsRoot, IsFirstPerson);
+            VisualUtils.ToggleVisuals(ThirdPersonVisualsRoot, !IsFirstPerson);
+        }
     }
 }

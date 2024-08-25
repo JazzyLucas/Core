@@ -2112,12 +2112,9 @@ MonoBehaviour:
   <CameraDistanceCollision_LayerMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 4294967295
-  <ThirdPersonVisual_LayerMask>k__BackingField:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  <FirstPersonVisual_LayerMask>k__BackingField:
-    serializedVersion: 2
-    m_Bits: 55
+  <FirstPersonOnAwake>k__BackingField: 1
+  <ThirdPersonVisualsRoot>k__BackingField: {fileID: 1473935251}
+  <FirstPersonVisualsRoot>k__BackingField: {fileID: 1473935251}
 --- !u!114 &1473935255
 MonoBehaviour:
   m_ObjectHideFlags: 0
