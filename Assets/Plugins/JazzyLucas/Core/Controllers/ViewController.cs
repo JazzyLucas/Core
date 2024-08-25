@@ -27,20 +27,17 @@ namespace JazzyLucas.Core
 
         private void Update()
         {
-            Process();
-        }
-
-        public void Process()
-        {
             if (Cursor.lockState != CursorLockMode.Locked)
                 return;
             
             var input = inputPoller.PollInput();
-            DoRotateCamera(input.MouseDelta);
+            Process(input);
         }
-            
-        private void DoRotateCamera(Vector2 delta)
+
+        private void Process(InputData input)
         {
+            Vector2 delta = input.MouseDelta;
+            
             yaw += delta.x;
             pitch += delta.y;
                 

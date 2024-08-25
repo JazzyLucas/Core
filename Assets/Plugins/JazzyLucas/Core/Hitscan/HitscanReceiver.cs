@@ -12,14 +12,14 @@ namespace JazzyLucas.Core
     {
         [field: SerializeField] public event Action<InputData> OnHitscan;
 
-        public virtual void InvokeOnHitscan(InputData data)
+        public void InvokeOnHitscan(InputData data)
         {
             OnHitscan?.Invoke(data);
         }
         
         [field: SerializeField] public event Action OnUnHitscan;
 
-        public virtual void InvokeOnUnHitscan()
+        public void InvokeOnUnHitscan()
         {
             OnUnHitscan?.Invoke();
         }

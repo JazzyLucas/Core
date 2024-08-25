@@ -11,6 +11,7 @@ namespace JazzyLucas.Core
         [field: SerializeField] public Camera MainCamera { get; private set; }
         [field: SerializeField] public float ThirdPersonDistance { get; private set; } = 5f;
         [field: SerializeField] public LayerMask CameraDistanceCollision_LayerMask { get; private set; } = ~0;
+        [field: SerializeField] public bool FirstPersonOnAwake { get; private set; } = true;
         
         [field: Header("Visuals")]
         [field: SerializeField] public LayerMask ThirdPersonVisual_LayerMask { get; private set; } = ~0;
@@ -25,17 +26,18 @@ namespace JazzyLucas.Core
             inputPoller = new();
             if (!MainCamera)
                 MainCamera = Camera.main;
+            IsFirstPerson = FirstPersonOnAwake;
             AdjustVisibility();
         }
 
         private void Update()
         {
-            Process();
+            var input = inputPoller.PollInput();
+            Process(input);
         }
 
-        public void Process()
+        private void Process(InputData input)
         {
-            var input = inputPoller.PollInput();
             if (input.R)
             {
                 IsFirstPerson = !IsFirstPerson;
@@ -56,6 +58,7 @@ namespace JazzyLucas.Core
             {
                 AdjustThirdPersonCamera();
             }
+            
         }
 
         private void AdjustThirdPersonCamera()

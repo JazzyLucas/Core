@@ -21,21 +21,21 @@ namespace JazzyLucas.Core
         private Vector3 velocity = Vector3.zero;
         private Vector3 lastMovementDirection = Vector3.zero; // Persist the last movement direction
 
-        protected virtual void Awake()
+        private void Awake()
         {
             inputPoller = new();
         }
 
-        protected virtual void Update()
+        private void Update()
         {
-            HandleInput();
+            var input = inputPoller.PollInput();
+            HandleInput(input);
             HandleRotation();
             Debug.DrawRay(Transform.position, lastMovementDirection * 0.2f, Color.green);
         }
 
-        private void HandleInput()
+        private void HandleInput(InputData input)
         {
-            var input = inputPoller.PollInput();
             var movementData = MovementInputData.GetFromInputData(input);
 
             if (movementData.toggleFlying)

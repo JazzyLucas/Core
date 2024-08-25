@@ -27,52 +27,26 @@ namespace JazzyLucas.Core
             Process();
         }
 
-        public void Process()
+        private void Process()
         {
+            var input = inputPoller.PollInput();
+            
             Ray.RaycastHitObject(out var newHitscanGO, Transform, LayerMask);
 
             if (newHitscanGO != CurrentHitscanGO)
             {
-                HandleHitscanChange(newHitscanGO);
+                HandleHitscanGOChange(newHitscanGO);
             }
 
-            if (CurrentHitscan != null)
-            {
-                ProcessHitscan();
-            }
+            CurrentHitscan?.InvokeOnHitscan(input);
         }
         
-        private void HandleHitscanChange(GameObject newHitscanGO)
+        private void HandleHitscanGOChange(GameObject newHitscanGO)
         {
             CurrentHitscan?.InvokeOnUnHitscan();
 
             CurrentHitscanGO = newHitscanGO;
             CurrentHitscan = CurrentHitscanGO?.GetComponent<HitscanReceiver>();
-
-            if (CurrentHitscan != null)
-            {
-                ProcessHitscan();
-            }
         }
-
-        private void ProcessHitscan()
-        {
-            var input = inputPoller.PollInput();
-            CurrentHitscan.InvokeOnHitscan(input);
-        }
-    }
-    
-    public enum HitscanClickType
-    {
-        NONE,
-        PRIMARY, // Left click
-        SECONDARY, // Right click
-    }
-    public enum HitscanHoldType
-    {
-        NONE,
-        HOLDING_CLICK, // Holding the click
-        HOLDING_SHIFT, // Holding shift
-        HOLDING_CTRL, // Holding ctrl
     }
 }
