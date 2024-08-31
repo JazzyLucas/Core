@@ -71,27 +71,23 @@ namespace JazzyLucas.Core.Input
         public int NumKey;
         public bool LeftClick, LeftClickHold, RightClick, RightClickHold, Shift, Ctrl, Spacebar, PauseEscape, Q, E, F, C, R;
     }
-
+    
     // TODO: use this when you make a hotbar controller
-    /*
-    public struct DisplayInputData
+    public struct HotbarInputData
     {
-        public static DisplayInputData GetFromInputData(InputData inputData)
+        public static HotbarInputData GetFromInputData(InputData inputData)
         {
             return new()
             {
-                TogglePauseOrEscape = inputData.PauseEscape,
                 CycleHotbar = inputData.Q,
                 HotbarSelectNum = inputData.NumKey-1,
                 HotbarSelectUp = inputData.Scroll < 0,
                 HotbarSelectDown = inputData.Scroll > 0,
             };
         }
-        public bool TogglePauseOrEscape { get; private set; }
         public bool CycleHotbar { get; private set; }
         public int HotbarSelectNum { get; private set; }
         public bool HotbarSelectUp { get; private set; }
         public bool HotbarSelectDown { get; private set; }
     }
-    */
 }

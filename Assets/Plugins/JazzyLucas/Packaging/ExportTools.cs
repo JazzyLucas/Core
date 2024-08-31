@@ -33,21 +33,27 @@ namespace JazzyLucas.Packaging
 
             var packageName = packageJson.name.Replace("com.", "").Replace(".", "_");
             var fileName = $"{packageName}_v{newVersion}.unitypackage";
-            var buildsFolderPath = Path.Combine(Path.GetDirectoryName(Application.dataPath) ?? throw new InvalidOperationException(), BUILDS_FOLDER_NAME);
+            var buildsFolderPath =
+                Path.Combine(Path.GetDirectoryName(Application.dataPath) ?? throw new InvalidOperationException(),
+                    BUILDS_FOLDER_NAME);
 
             if (!Directory.Exists(buildsFolderPath))
                 Directory.CreateDirectory(buildsFolderPath);
 
             var filePath = Path.Combine(buildsFolderPath, fileName);
 
-            AssetDatabase.ExportPackage(EXPORT_PATH, filePath, ExportPackageOptions.Recurse | ExportPackageOptions.IncludeDependencies);
+            AssetDatabase.ExportPackage(EXPORT_PATH, filePath,
+                ExportPackageOptions.Recurse | ExportPackageOptions.IncludeDependencies);
+
+            // Create a clickable hyperlink in the Unity Console
+            var folderUrl = "file:///" + buildsFolderPath.Replace("\\", "/");
             L.Log($"<color=white>Exported </color>" +
                   $"<color=green>{fileName}</color>" +
                   $"<color=white> to </color>" +
-                  $"<color=blue>{filePath}</color>");
+                  $"<color=blue><a href=\"{folderUrl}\">{filePath}</a></color>");
         }
     }
-    
+
     [Serializable]
     public struct PackageJson
     {

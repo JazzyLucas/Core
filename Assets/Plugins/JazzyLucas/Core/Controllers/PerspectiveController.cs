@@ -27,8 +27,7 @@ namespace JazzyLucas.Core
             inputPoller = new();
             if (!MainCamera)
                 MainCamera = Camera.main;
-            IsThirdPerson = ThirdPersonOnAwake;
-            ToggleThirdPersonVisuals(IsThirdPerson);
+            SetupCamera();
         }
 
         private void Update()
@@ -49,7 +48,6 @@ namespace JazzyLucas.Core
                 }
                 else
                 {
-                    MainCamera.transform.SetParent(FirstPerson_ViewTransform);
                     MainCamera.transform.localPosition = Vector3.zero;
                 }
 
@@ -62,23 +60,26 @@ namespace JazzyLucas.Core
             }
         }
 
+        private void SetupCamera()
+        {
+            MainCamera.transform.SetParent(FirstPerson_ViewTransform);
+            MainCamera.transform.localPosition = Vector3.zero;
+            IsThirdPerson = ThirdPersonOnAwake;
+            ToggleThirdPersonVisuals(IsThirdPerson);
+        }
+        
         private void AdjustThirdPersonCamera()
         {
             var desiredPosition = FirstPerson_ViewTransform.position - FirstPerson_ViewTransform.forward * ThirdPersonDistance;
             var directionToCamera = desiredPosition - FirstPerson_ViewTransform.position;
 
-            if (Physics.Raycast(FirstPerson_ViewTransform.position, directionToCamera, out RaycastHit hit, ThirdPersonDistance, CameraDistanceCollision_LayerMask))
-            {
-                MainCamera.transform.position = hit.point - directionToCamera.normalized * 0.1f;
-            }
-            else
-            {
-                MainCamera.transform.position = desiredPosition;
-            }
+            MainCamera.transform.position = Physics.Raycast(FirstPerson_ViewTransform.position, directionToCamera, out RaycastHit hit, ThirdPersonDistance, CameraDistanceCollision_LayerMask) ? 
+                Vector3.Lerp(MainCamera.transform.position, hit.point - directionToCamera.normalized * 0.1f, Time.deltaTime * 10f) : 
+                Vector3.Lerp(MainCamera.transform.position, desiredPosition, Time.deltaTime * 10f);
 
             MainCamera.transform.LookAt(FirstPerson_ViewTransform);
-            MainCamera.transform.SetParent(null);
         }
+
 
         public void ToggleThirdPersonVisuals(bool value)
         {
