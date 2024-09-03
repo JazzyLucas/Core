@@ -42,6 +42,8 @@ namespace JazzyLucas.Core
             {
                 IsThirdPerson = !IsThirdPerson;
 
+                ToggleThirdPersonVisuals();
+                
                 if (IsThirdPerson)
                 {
                     AdjustThirdPersonCamera();
@@ -50,8 +52,6 @@ namespace JazzyLucas.Core
                 {
                     MainCamera.transform.localPosition = Vector3.zero;
                 }
-
-                ToggleThirdPersonVisuals(IsThirdPerson);
             }
 
             if (IsThirdPerson)
@@ -65,7 +65,7 @@ namespace JazzyLucas.Core
             MainCamera.transform.SetParent(FirstPerson_ViewTransform);
             MainCamera.transform.localPosition = Vector3.zero;
             IsThirdPerson = ThirdPersonOnAwake;
-            ToggleThirdPersonVisuals(IsThirdPerson);
+            ToggleThirdPersonVisuals();
         }
         
         private void AdjustThirdPersonCamera()
@@ -81,9 +81,9 @@ namespace JazzyLucas.Core
         }
 
 
-        public void ToggleThirdPersonVisuals(bool value)
+        public void ToggleThirdPersonVisuals()
         {
-            VisualUtils.ToggleVisuals(ThirdPersonVisualsRoot, value);
+            VisualUtils.ToggleVisuals(ThirdPersonVisualsRoot, IsThirdPerson);
         }
     }
 }
