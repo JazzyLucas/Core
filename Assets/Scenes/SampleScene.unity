@@ -292,8 +292,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Receiver>k__BackingField: {fileID: 780823806}
   <Renderer>k__BackingField: {fileID: 1737604875}
-  <HoveredMat>k__BackingField: {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
-  <ClickingMat>k__BackingField: {fileID: 2100000, guid: f90e4837bdb42f94aa9f39e0f4b9b918, type: 2}
+  <HoveredMat>k__BackingField: {fileID: 2100000, guid: a419f552e2ee86a40bb6076c79bb9ab1, type: 2}
+  <ClickingMat>k__BackingField: {fileID: 2100000, guid: 18e73df19d1de8e49a3e9b0f72335ad7, type: 2}
 --- !u!1 &336001376
 GameObject:
   m_ObjectHideFlags: 0
@@ -460,7 +460,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ad071458c1d08d148bd2ab8ddd9fab67, type: 2}
+  - {fileID: 2100000, guid: b89ba4e0697e7054d853fddf57bd6437, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -568,7 +568,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8fdc8b533a9cb4f47b4bd02720a956e0, type: 2}
+  - {fileID: 2100000, guid: 2744438fda03a4a4588984ef5614b52d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -812,7 +812,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f90e4837bdb42f94aa9f39e0f4b9b918, type: 2}
+  - {fileID: 2100000, guid: 3bf9bd9399da71f4884f80f27f0d7ec4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2090,10 +2090,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <DirectionTransform>k__BackingField: {fileID: 144711326}
   <CharacterController>k__BackingField: {fileID: 383854458}
-  <walkSpeed>k__BackingField: 2
-  <runSpeed>k__BackingField: 4
-  <jumpForce>k__BackingField: 1
-  <flySpeed>k__BackingField: 4
+  <walkSpeed>k__BackingField: 4
+  <runSpeed>k__BackingField: 6
+  <jumpForce>k__BackingField: 0.8
+  <flySpeed>k__BackingField: 12
 --- !u!114 &1473935254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2112,9 +2112,8 @@ MonoBehaviour:
   <CameraDistanceCollision_LayerMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 4294967295
-  <FirstPersonOnAwake>k__BackingField: 1
+  <ThirdPersonOnAwake>k__BackingField: 0
   <ThirdPersonVisualsRoot>k__BackingField: {fileID: 1473935251}
-  <FirstPersonVisualsRoot>k__BackingField: {fileID: 1473935251}
 --- !u!114 &1473935255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2191,7 +2190,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 604291f388014354cab0f5304c3e899a, type: 2}
+  - {fileID: 2100000, guid: c1541bedd8a3c5a42bd2aeb0415a42ee, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2665,7 +2664,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 604291f388014354cab0f5304c3e899a, type: 2}
+  - {fileID: 2100000, guid: ae309417f187c7444a94ffbc22fb6c7e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
