@@ -13,10 +13,10 @@ namespace JazzyLucas.Core
         private InputPoller inputPoller;
         private MovementState currentState;
 
-        [field: SerializeField] public float walkSpeed { get; private set; } = 2f;
-        [field: SerializeField] public float runSpeed { get; private set; } = 4f;
-        [field: SerializeField] public float jumpForce { get; private set; } = 1f;
-        [field: SerializeField] public float flySpeed { get; private set; } = 4f;
+        [field: SerializeField] public float walkSpeed { get; private set; } = 4f;
+        [field: SerializeField] public float runSpeed { get; private set; } = 6f;
+        [field: SerializeField] public float jumpForce { get; private set; } = 0.8f;
+        [field: SerializeField] public float flySpeed { get; private set; } = 12f;
 
         private Vector3 velocity = Vector3.zero;
         private Vector3 lastMovementDirection = Vector3.zero; // Persist the last movement direction
