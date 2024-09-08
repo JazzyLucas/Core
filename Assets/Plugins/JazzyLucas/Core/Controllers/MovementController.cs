@@ -10,23 +10,27 @@ namespace JazzyLucas.Core
         [field: SerializeField] public CharacterController CharacterController { get; private set; }
         private Transform Transform => CharacterController.transform;
 
-        private InputPoller inputPoller;
-        private MovementState currentState;
-
         [field: SerializeField] public float walkSpeed { get; private set; } = 4f;
         [field: SerializeField] public float runSpeed { get; private set; } = 6f;
         [field: SerializeField] public float jumpForce { get; private set; } = 0.8f;
         [field: SerializeField] public float flySpeed { get; private set; } = 12f;
 
+        [field: Header("Debugging")]
+        [field: SerializeField] public bool ShowDebugInOnGUI { get; private set; } = false;
+
+        [field: HideInInspector] public Vector3 Direction => lastMovementDirection;
+        [field: HideInInspector] public bool IsWalking { get; private set; }
+        [field: HideInInspector] public bool IsRunning { get; private set; }
+        [field: HideInInspector] public bool IsJumping { get; private set; }
+        [field: HideInInspector] public bool IsInAir { get; private set; }
+        [field: HideInInspector] public bool IsFlying { get; private set; }
+        [field: HideInInspector] public bool IsStandingStill { get; private set; }
+
+        private InputPoller inputPoller;
+        private MovementState currentState;
+
         private Vector3 velocity = Vector3.zero;
         private Vector3 lastMovementDirection = Vector3.zero; // Persist the last movement direction
-
-        // New state booleans
-        public bool IsWalking { get; private set; }
-        public bool IsRunning { get; private set; }
-        public bool IsJumping { get; private set; }
-        public bool IsFlying { get; private set; }
-        public bool IsStandingStill => lastMovementDirection == Vector3.zero && CharacterController.isGrounded;
 
         private void Awake()
         {
@@ -40,22 +44,22 @@ namespace JazzyLucas.Core
             HandleRotation();
             Debug.DrawRay(Transform.position, lastMovementDirection * 0.2f, Color.green);
 
-            UpdateStateBooleans(); // Update booleans for state checking
+            UpdateStateBooleans(input); // Pass input to update the booleans
         }
 
         private void OnGUI()
         {
-            // Define the style for the labels
+            if (!ShowDebugInOnGUI)
+                return;
+            
             GUIStyle labelStyle = new(GUI.skin.label)
             {
                 fontSize = 20,
                 normal = new() { textColor = Color.white }
             };
-            
-            // Display the boolean values
             GUI.Label(new(10, 10, 300, 25), $"IsWalking: {IsWalking}", labelStyle);
             GUI.Label(new(10, 40, 300, 25), $"IsRunning: {IsRunning}", labelStyle);
-            GUI.Label(new(10, 70, 300, 25), $"IsJumping: {IsJumping}", labelStyle);
+            GUI.Label(new(10, 70, 300, 25), $"IsJumping: {IsInAir}", labelStyle);
             GUI.Label(new(10, 100, 300, 25), $"IsFlying: {IsFlying}", labelStyle);
             GUI.Label(new(10, 130, 300, 25), $"IsStandingStill: {IsStandingStill}", labelStyle);
         }
@@ -98,11 +102,11 @@ namespace JazzyLucas.Core
                 if (input.isJumping)
                 {
                     velocity.y = Mathf.Sqrt(jumpForce * -2f * Physics.gravity.y);
-                    IsJumping = true; // Player is jumping
+                    IsInAir = true; // Player is jumping
                 }
                 else
                 {
-                    IsJumping = false;
+                    IsInAir = false;
                 }
             }
             else
@@ -162,11 +166,19 @@ namespace JazzyLucas.Core
         }
 
         // Update state booleans based on current inputs and conditions
-        private void UpdateStateBooleans()
+        private void UpdateStateBooleans(InputData input)
         {
-            IsWalking = lastMovementDirection != Vector3.zero && !IsRunning && !IsFlying && CharacterController.isGrounded;
-            IsRunning = lastMovementDirection != Vector3.zero && currentState == MovementState.Grounded && Mathf.Approximately(GetCurrentSpeed(false), runSpeed);
+            // Crunch some info
+            var movementData = MovementInputData.GetFromInputData(input);
+            bool isMoving = movementData.moveInput != Vector2.zero;
+    
+            // Update the state booleans
+            IsWalking = isMoving && !movementData.isSprinting && currentState == MovementState.Grounded;
+            IsRunning = isMoving && movementData.isSprinting && currentState == MovementState.Grounded;
             IsFlying = currentState == MovementState.Flying;
+            IsJumping = movementData.isJumping;
+            IsInAir = !CharacterController.isGrounded;
+            IsStandingStill = !isMoving && currentState == MovementState.Grounded;
         }
     }
 
