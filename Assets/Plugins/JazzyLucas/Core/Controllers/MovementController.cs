@@ -21,6 +21,13 @@ namespace JazzyLucas.Core
         private Vector3 velocity = Vector3.zero;
         private Vector3 lastMovementDirection = Vector3.zero; // Persist the last movement direction
 
+        // New state booleans
+        public bool IsWalking { get; private set; }
+        public bool IsRunning { get; private set; }
+        public bool IsJumping { get; private set; }
+        public bool IsFlying { get; private set; }
+        public bool IsStandingStill => lastMovementDirection == Vector3.zero && CharacterController.isGrounded;
+
         private void Awake()
         {
             inputPoller = new();
@@ -32,6 +39,25 @@ namespace JazzyLucas.Core
             HandleInput(input);
             HandleRotation();
             Debug.DrawRay(Transform.position, lastMovementDirection * 0.2f, Color.green);
+
+            UpdateStateBooleans(); // Update booleans for state checking
+        }
+
+        private void OnGUI()
+        {
+            // Define the style for the labels
+            GUIStyle labelStyle = new(GUI.skin.label)
+            {
+                fontSize = 20,
+                normal = new() { textColor = Color.white }
+            };
+            
+            // Display the boolean values
+            GUI.Label(new(10, 10, 300, 25), $"IsWalking: {IsWalking}", labelStyle);
+            GUI.Label(new(10, 40, 300, 25), $"IsRunning: {IsRunning}", labelStyle);
+            GUI.Label(new(10, 70, 300, 25), $"IsJumping: {IsJumping}", labelStyle);
+            GUI.Label(new(10, 100, 300, 25), $"IsFlying: {IsFlying}", labelStyle);
+            GUI.Label(new(10, 130, 300, 25), $"IsStandingStill: {IsStandingStill}", labelStyle);
         }
 
         private void HandleInput(InputData input)
@@ -70,7 +96,14 @@ namespace JazzyLucas.Core
             {
                 velocity.y = -2f; // Ensure the player sticks to the ground.
                 if (input.isJumping)
+                {
                     velocity.y = Mathf.Sqrt(jumpForce * -2f * Physics.gravity.y);
+                    IsJumping = true; // Player is jumping
+                }
+                else
+                {
+                    IsJumping = false;
+                }
             }
             else
             {
@@ -127,8 +160,16 @@ namespace JazzyLucas.Core
         {
             return isSprinting ? runSpeed : walkSpeed;
         }
+
+        // Update state booleans based on current inputs and conditions
+        private void UpdateStateBooleans()
+        {
+            IsWalking = lastMovementDirection != Vector3.zero && !IsRunning && !IsFlying && CharacterController.isGrounded;
+            IsRunning = lastMovementDirection != Vector3.zero && currentState == MovementState.Grounded && Mathf.Approximately(GetCurrentSpeed(false), runSpeed);
+            IsFlying = currentState == MovementState.Flying;
+        }
     }
-    
+
     public struct MovementInputData
     {
         public static MovementInputData GetFromInputData(InputData inputData)
@@ -148,7 +189,7 @@ namespace JazzyLucas.Core
         public bool isCrouching { get; private set; }
         public bool toggleFlying { get; private set; }
     }
-    
+
     public enum MovementState
     {
         Grounded,
