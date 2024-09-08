@@ -7,12 +7,17 @@ using UnityEngine;
 
 public class EscapeMenuTest : UIMonoBehavior
 {
+    [field: SerializeField] public bool OpenEscapeMenuOnAwake { get; private set; } = false;
+    
     private InputPoller inputPoller;
     
     protected override void OnAwake()
     {
-        inputPoller = new();
         base.OnAwake();
+        inputPoller = new();
+
+        Cursor.lockState = OpenEscapeMenuOnAwake ? CursorLockMode.None : CursorLockMode.Locked;
+        SetVisibility(OpenEscapeMenuOnAwake);
     }
 
     private void Update()

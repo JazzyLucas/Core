@@ -4,7 +4,7 @@ using JazzyLucas.Core;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class TooltipTest : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerMoveHandler
+public class TextTooltipTest : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerMoveHandler
 {
     private TooltipsManager tooltipsManager => (TooltipsManager)TooltipsManager.Instance;
     private TooltipsContainer tooltipsContainer => tooltipsManager.Container;

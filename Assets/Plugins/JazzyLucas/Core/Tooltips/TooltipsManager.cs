@@ -19,12 +19,12 @@ namespace JazzyLucas.Core
             return tooltip;
         }
 
-        public Tooltip CreateCustomTooltip(GameObject customPrefab)
+        public GenericTooltip CreateCustomTooltip(GameObject customPrefab)
         {
             var tooltip = Instantiate(customPrefab, Canvas.transform);
-            if (tooltip.GetComponent<Tooltip>() == null)
-                tooltip.AddComponent<Tooltip>();
-            return tooltip.GetComponent<Tooltip>();
+            if (tooltip.GetComponent<GenericTooltip>() == null)
+                tooltip.AddComponent<GenericTooltip>();
+            return tooltip.GetComponent<GenericTooltip>();
         }
 
         public void ReturnTooltip(Tooltip tooltip)
