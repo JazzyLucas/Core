@@ -19,11 +19,12 @@ public class EscapeMenuTest : UIMonoBehavior
     {
         var input = inputPoller.PollInput();
 
-        if (input.PauseEscape)
+        if (input.PauseEscape == InputState.Pressed)
         {
             SetVisibility(!IsVisible);
             Cursor.lockState = IsVisible ? CursorLockMode.None : CursorLockMode.Locked;
         }
-
+        
+        Debug.Log($"{input.PauseEscape}");
     }
 }

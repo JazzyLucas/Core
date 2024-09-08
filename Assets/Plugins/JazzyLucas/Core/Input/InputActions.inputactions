@@ -34,30 +34,30 @@
                 },
                 {
                     "name": "LeftClick",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "60630489-7b99-4546-9815-b239cf983851",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "RightClick",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "f30dbb2f-4883-4fed-be5b-44711e03e2bc",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Spacebar",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "18114343-7a4b-48d5-95db-076d54e37b9e",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Scroll",
@@ -70,75 +70,75 @@
                 },
                 {
                     "name": "Shift",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "138e444e-ca39-439b-8c97-d4b1e21d4404",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Ctrl",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "108b205a-902f-4c51-ae13-ea8e4503aa18",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "PauseEscape",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "de6d998c-56f4-49e5-85ca-6d565956d1c8",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Q",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "2e679290-87c2-43d3-86b8-5b6f64f99959",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "E",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "7b14cdd9-70ee-44cd-9733-62ba9cb93372",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "F",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "aad218f1-ad7b-4f99-be06-03b07cff052a",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "C",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "1962fd71-9b3f-4896-a50d-2fc6daa9747c",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "R",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "cdca540d-ccef-4457-be8d-e7965a218f24",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [

@@ -38,7 +38,7 @@ namespace JazzyLucas.Core
 
         private void Process(InputData input)
         {
-            if (input.R)
+            if (input.R == InputState.Pressed)
             {
                 IsThirdPerson = !IsThirdPerson;
 

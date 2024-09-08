@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using JazzyLucas.Core;
+using JazzyLucas.Core.Input;
 using UnityEngine;
 
 public class HitscanTest : MonoBehaviour
@@ -22,7 +23,7 @@ public class HitscanTest : MonoBehaviour
         Receiver.OnHitscan += (data) =>
         {
             Renderer.material = HoveredMat;
-            if (data.LeftClickHold || data.RightClickHold)
+            if (data.LeftClick == InputState.Held || data.RightClick == InputState.Held)
                 Renderer.material = ClickingMat;
         };
         Receiver.OnUnHitscan += () =>

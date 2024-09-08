@@ -136,10 +136,10 @@ namespace JazzyLucas.Core
             return new()
             {
                 moveInput = inputData.WASD,
-                isSprinting = inputData.Shift,
-                isJumping = inputData.Spacebar,
-                isCrouching = inputData.Ctrl,
-                toggleFlying = inputData.F,
+                isSprinting = inputData.Shift == InputState.Held,
+                isJumping = inputData.Spacebar == InputState.Held,
+                isCrouching = inputData.Ctrl == InputState.Held,
+                toggleFlying = inputData.F == InputState.Pressed,
             };
         }
         public Vector2 moveInput { get; private set; }
