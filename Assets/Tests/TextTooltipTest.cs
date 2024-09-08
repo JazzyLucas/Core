@@ -4,7 +4,7 @@ using JazzyLucas.Core;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class TextTooltipTest : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerMoveHandler
+public class TextTooltipTest : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private TooltipsManager tooltipsManager => (TooltipsManager)TooltipsManager.Instance;
     private TooltipsContainer tooltipsContainer => tooltipsManager.Container;
@@ -15,14 +15,6 @@ public class TextTooltipTest : MonoBehaviour, IPointerEnterHandler, IPointerExit
     {
         activeTooltip = tooltipsManager.CreateTextTooltip();
         activeTooltip.Text.text = "Your tooltip text here.";
-    }
-
-    public void OnPointerMove(PointerEventData eventData)
-    {
-        if (activeTooltip != null)
-        {
-            // Optionally update the tooltip content or position
-        }
     }
 
     public void OnPointerExit(PointerEventData eventData)

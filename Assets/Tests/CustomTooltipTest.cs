@@ -4,7 +4,7 @@ using JazzyLucas.Core;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class CustomTooltipTest : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerMoveHandler
+public class CustomTooltipTest : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [field: SerializeField] public GameObject CustomTooltipPrefab { get; private set; }
     
@@ -16,14 +16,6 @@ public class CustomTooltipTest : MonoBehaviour, IPointerEnterHandler, IPointerEx
     public void OnPointerEnter(PointerEventData eventData)
     {
         activeTooltip = tooltipsManager.CreateCustomTooltip(CustomTooltipPrefab);
-    }
-
-    public void OnPointerMove(PointerEventData eventData)
-    {
-        if (activeTooltip != null)
-        {
-            // Optionally update the tooltip content or position
-        }
     }
 
     public void OnPointerExit(PointerEventData eventData)

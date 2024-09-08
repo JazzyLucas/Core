@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +11,7 @@ namespace JazzyLucas.Core
 
         public override void Init()
         {
-            
+            InitializeCanvas();
         }
 
         public TextTooltip CreateTextTooltip()
@@ -30,6 +31,12 @@ namespace JazzyLucas.Core
         public void ReturnTooltip(Tooltip tooltip)
         {
             Destroy(tooltip.gameObject);
+        }
+
+        private void InitializeCanvas()
+        {
+            Canvas.overrideSorting = true;
+            Canvas.sortingOrder = 32767; // int max
         }
     }
 }
