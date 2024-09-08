@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using JazzyLucas.Core;
 using JazzyLucas.Core.Input;
 using UnityEngine;
@@ -9,6 +10,8 @@ namespace JazzyLucas.Core.Input
     public sealed class InputPoller
     {
         private readonly InputActions _inputActions;
+        private Dictionary<string, float> _lastInputTimes;
+        private readonly float _debounceDuration = 0.2f; // Debounce time in seconds
         public bool Enabled { get; private set; }
 
         // Constructor
@@ -43,9 +46,7 @@ namespace JazzyLucas.Core.Input
             data.WASD = new(Mathf.Clamp(wasdCache.x, -1, 1), Mathf.Clamp(wasdCache.y, -1, 1));
             data.MouseDelta = _inputActions.Player.MouseDelta.ReadValue<Vector2>();
             data.LeftClick = _inputActions.Player.LeftClick.triggered;
-            data.LeftClickHold = _inputActions.Player.LeftClick.IsPressed();
             data.RightClick = _inputActions.Player.RightClick.triggered;
-            data.RightClickHold = _inputActions.Player.RightClick.IsPressed();
             data.Shift = _inputActions.Player.Shift.IsPressed();
             data.Ctrl = _inputActions.Player.Ctrl.IsPressed();
             data.Spacebar = _inputActions.Player.Spacebar.IsPressed();
@@ -68,8 +69,24 @@ namespace JazzyLucas.Core.Input
         public Vector2 WASD;
         public Vector2 MouseDelta;
         public float Scroll;
+        
+        // Mouse
+        public bool LeftClick;
+        public bool RightClick;
+        
+        // NumKeys
         public int NumKey;
-        public bool LeftClick, LeftClickHold, RightClick, RightClickHold, Shift, Ctrl, Spacebar, PauseEscape, Q, E, F, C, R;
+        
+        // Keys
+        public bool PauseEscape;
+        public bool Shift;
+        public bool Ctrl;
+        public bool Spacebar;
+        public bool Q;
+        public bool E;
+        public bool R;
+        public bool F;
+        public bool C;
     }
     
     // TODO: use this when you make a hotbar controller
@@ -79,13 +96,11 @@ namespace JazzyLucas.Core.Input
         {
             return new()
             {
-                CycleHotbar = inputData.Q,
                 HotbarSelectNum = inputData.NumKey-1,
                 HotbarSelectUp = inputData.Scroll < 0,
                 HotbarSelectDown = inputData.Scroll > 0,
             };
         }
-        public bool CycleHotbar { get; private set; }
         public int HotbarSelectNum { get; private set; }
         public bool HotbarSelectUp { get; private set; }
         public bool HotbarSelectDown { get; private set; }
