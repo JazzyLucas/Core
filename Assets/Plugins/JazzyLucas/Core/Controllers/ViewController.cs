@@ -1,41 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 using JazzyLucas.Core.Input;
 using JazzyLucas.Core.Utils;
-using UnityEngine;
+using L = JazzyLucas.Core.Utils.Logger;
 
 namespace JazzyLucas.Core
 {
-    public class ViewController : MonoBehaviour
+    public class ViewController : Controller
     {
         [field: SerializeField] public Transform ViewTransform { get; private set; }
-        [field: SerializeField] public bool LockCursorOnAwake { get; private set; } = true;
-
-        private InputPoller inputPoller;
+        [field: SerializeField] public bool LockCursorOnInit { get; private set; } = true;
         
-        private Angle yaw;
-        public Angle GetYaw() => ViewTransform.rotation.eulerAngles.y;
-        private Angle pitch;
-        public Angle GetPitch() => ViewTransform.rotation.eulerAngles.x;
+        [field: HideInInspector] private Angle yaw;
+        [field: HideInInspector] private Angle pitch;
 
-        private void Awake()
+        public override void Init()
         {
-            inputPoller = new();
-            if (LockCursorOnAwake)
+            base.Init();
+            if (LockCursorOnInit)
                 Cursor.lockState = CursorLockMode.Locked;
         }
 
-        private void Update()
+        protected override void Process()
         {
             if (Cursor.lockState != CursorLockMode.Locked)
                 return;
             
             var input = inputPoller.PollInput();
-            Process(input);
-        }
-
-        private void Process(InputData input)
-        {
+            
             Vector2 delta = input.MouseDelta;
             
             yaw += delta.x;
@@ -46,5 +39,9 @@ namespace JazzyLucas.Core
             var rotation = Quaternion.Euler((float)pitch, (float)yaw, 0);
             ViewTransform.rotation = rotation;
         }
+        
+        public Angle GetYaw() => ViewTransform.rotation.eulerAngles.y;
+        
+        public Angle GetPitch() => ViewTransform.rotation.eulerAngles.x;
     }
 }

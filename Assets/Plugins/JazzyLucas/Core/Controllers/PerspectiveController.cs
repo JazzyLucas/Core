@@ -4,45 +4,39 @@ using System.Linq;
 using UnityEngine;
 using JazzyLucas.Core.Input;
 using JazzyLucas.Core.Utils;
+using L = JazzyLucas.Core.Utils.Logger;
 
 namespace JazzyLucas.Core
 {
-    public class PerspectiveController : MonoBehaviour
+    public class PerspectiveController : Controller
     {
         [field: SerializeField] public Transform FirstPerson_ViewTransform { get; private set; }
         [field: SerializeField] public Camera MainCamera { get; private set; }
         [field: SerializeField] public float ThirdPersonDistance { get; private set; } = 5f;
         [field: SerializeField] public LayerMask CameraDistanceCollision_LayerMask { get; private set; } = ~0;
-        [field: SerializeField] public bool ThirdPersonOnAwake { get; private set; } = false;
-        
         [field: Header("Visuals")]
         [field: SerializeField] public Transform ThirdPersonVisualsRoot { get; private set; }
+        [field: Header("Init Control")]
+        [field: SerializeField] public bool ThirdPersonOnInit { get; private set; } = false;
 
-        public bool IsThirdPerson { get; private set; }
+        [field: HideInInspector] public bool IsThirdPerson { get; private set; }
 
-        private InputPoller inputPoller;
-
-        private void Awake()
+        public override void Init()
         {
-            inputPoller = new();
-            if (!MainCamera)
-                MainCamera = Camera.main;
-            SetupCamera();
+            base.Init();
+            IsThirdPerson = ThirdPersonOnInit;
+            InitCamera();
         }
 
-        private void Update()
+        protected override void Process()
         {
             var input = inputPoller.PollInput();
-            Process(input);
-        }
-
-        private void Process(InputData input)
-        {
+            
             if (input.R == InputState.Pressed)
             {
                 IsThirdPerson = !IsThirdPerson;
 
-                ToggleThirdPersonVisuals();
+                ToggleThirdPersonVisuals(IsThirdPerson);
                 
                 if (IsThirdPerson)
                 {
@@ -60,12 +54,14 @@ namespace JazzyLucas.Core
             }
         }
 
-        private void SetupCamera()
+        private void InitCamera()
         {
+            if (!MainCamera)
+                MainCamera = Camera.main;
+            // ReSharper disable once PossibleNullReferenceException
             MainCamera.transform.SetParent(FirstPerson_ViewTransform);
             MainCamera.transform.localPosition = Vector3.zero;
-            IsThirdPerson = ThirdPersonOnAwake;
-            ToggleThirdPersonVisuals();
+            ToggleThirdPersonVisuals(IsThirdPerson);
         }
         
         private void AdjustThirdPersonCamera()
@@ -80,10 +76,9 @@ namespace JazzyLucas.Core
             MainCamera.transform.LookAt(FirstPerson_ViewTransform);
         }
 
-
-        public void ToggleThirdPersonVisuals()
+        public void ToggleThirdPersonVisuals(bool value)
         {
-            VisualUtils.ToggleVisuals(ThirdPersonVisualsRoot, IsThirdPerson);
+            VisualUtils.ToggleVisuals(ThirdPersonVisualsRoot, value);
         }
     }
 }

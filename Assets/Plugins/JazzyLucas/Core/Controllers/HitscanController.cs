@@ -8,7 +8,7 @@ using Ray = JazzyLucas.Core.Utils.RaycastUtils;
 
 namespace JazzyLucas.Core
 {
-    public class HitscanController : MonoBehaviour
+    public class HitscanController : Controller
     {
         [field: SerializeField] public Transform Transform { get; private set; }
         [field: SerializeField] public LayerMask LayerMask { get; private set; } = ~0;
@@ -16,18 +16,7 @@ namespace JazzyLucas.Core
         [field: HideInInspector] public GameObject CurrentHitscanGO { get; private set; }
         [field: HideInInspector] public HitscanReceiver CurrentHitscan { get; private set; }
 
-        private InputPoller inputPoller;
-
-        private void Awake()
-        {
-            inputPoller = new();
-        }
-        private void Update()
-        {
-            Process();
-        }
-
-        private void Process()
+        protected override void Process()
         {
             var input = inputPoller.PollInput();
             

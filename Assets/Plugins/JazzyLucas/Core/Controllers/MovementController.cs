@@ -1,10 +1,11 @@
 using System;
-using JazzyLucas.Core.Input;
 using UnityEngine;
+using JazzyLucas.Core.Input;
+using L = JazzyLucas.Core.Utils.Logger;
 
 namespace JazzyLucas.Core
 {
-    public class MovementController : MonoBehaviour
+    public class MovementController : Controller
     {
         [field: SerializeField] public Transform DirectionTransform { get; private set; }
         [field: SerializeField] public CharacterController CharacterController { get; private set; }
@@ -26,26 +27,10 @@ namespace JazzyLucas.Core
         [field: HideInInspector] public bool IsFlying { get; private set; }
         [field: HideInInspector] public bool IsStandingStill { get; private set; }
 
-        private InputPoller inputPoller;
         private MovementState currentState;
 
         private Vector3 velocity = Vector3.zero;
         private Vector3 lastMovementDirection = Vector3.zero; // Persist the last movement direction
-
-        private void Awake()
-        {
-            inputPoller = new();
-        }
-
-        private void Update()
-        {
-            var input = inputPoller.PollInput();
-            HandleInput(input);
-            HandleRotation();
-            Debug.DrawRay(Transform.position, lastMovementDirection * 0.2f, Color.green);
-
-            UpdateStateBooleans(input); // Pass input to update the booleans
-        }
 
         private void OnGUI()
         {
@@ -64,8 +49,19 @@ namespace JazzyLucas.Core
             GUI.Label(new(10, 130, 300, 25), $"IsStandingStill: {IsStandingStill}", labelStyle);
         }
 
-        private void HandleInput(InputData input)
+        protected override void Process()
         {
+            HandleInput();
+            HandleRotation();
+            Debug.DrawRay(Transform.position, lastMovementDirection * 0.2f, Color.green);
+
+            UpdateStateBooleans();
+        }
+
+        private void HandleInput()
+        {
+            var input = inputPoller.PollInput();
+            
             var movementData = MovementInputData.GetFromInputData(input);
 
             if (movementData.toggleFlying)
@@ -165,9 +161,10 @@ namespace JazzyLucas.Core
             return isSprinting ? runSpeed : walkSpeed;
         }
 
-        // Update state booleans based on current inputs and conditions
-        private void UpdateStateBooleans(InputData input)
+        private void UpdateStateBooleans()
         {
+            var input = inputPoller.PollInput();
+            
             // Crunch some info
             var movementData = MovementInputData.GetFromInputData(input);
             bool isMoving = movementData.moveInput != Vector2.zero;

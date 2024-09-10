@@ -28,7 +28,7 @@ namespace JazzyLucas.Core
         /// Called in Unity's Awake.
         /// </summary>
         /// <remarks>
-        /// Please call base.OnAwake() first.
+        /// When overriding, please do a base.OnAwake() first.
         /// </remarks>
         protected virtual void OnAwake()
         {
