@@ -2826,6 +2826,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1254493904}
+  - component: {fileID: 1254493906}
   - component: {fileID: 1254493905}
   m_Layer: 28
   m_Name: Sphere GroundingCollider
@@ -2870,6 +2871,18 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1254493906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1254493903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3275d200e9990f46aa29e77fcfa6476, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1257886992
 GameObject:
   m_ObjectHideFlags: 0
@@ -2964,6 +2977,7 @@ GameObject:
   - component: {fileID: 1473935252}
   - component: {fileID: 1473935254}
   - component: {fileID: 1473935255}
+  - component: {fileID: 1473935257}
   - component: {fileID: 1473935256}
   m_Layer: 28
   m_Name: Player
@@ -3076,6 +3090,21 @@ MonoBehaviour:
   <InitOnAwake>k__BackingField: 1
   <CCWrapper>k__BackingField: {fileID: 383854459}
   <PushForce>k__BackingField: 0.05
+--- !u!114 &1473935257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1473935250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f10b1b77ede429cbcd20b270072046d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <InitOnAwake>k__BackingField: 1
+  <ColliderWrapper>k__BackingField: {fileID: 1254493906}
+  <CharacterController>k__BackingField: {fileID: 383854458}
 --- !u!1 &1479821863
 GameObject:
   m_ObjectHideFlags: 0
@@ -3222,6 +3251,7 @@ GameObject:
   - component: {fileID: 1499946932}
   - component: {fileID: 1499946931}
   - component: {fileID: 1499946930}
+  - component: {fileID: 1499946934}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -3315,6 +3345,33 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1711113237}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &1499946934
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1499946929}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1585721629
 GameObject:
   m_ObjectHideFlags: 0
