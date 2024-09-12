@@ -7,15 +7,15 @@ namespace JazzyLucas.Core
 {
     public class PushController : Controller
     {
-        [field: SerializeField] public float PushForce { get; private set; } = 2f;
-
         [field: SerializeField] public CharacterControllerWrapper CCWrapper { get; private set; }
+        [field: SerializeField] public float PushForce { get; private set; } = 0.05f;
+
         private Transform Transform => CCWrapper.transform;
 
         public override void Init()
         {
             base.Init();
-            CCWrapper.OnColliderHit += OnColliderColliderHit;
+            CCWrapper.OnColliderHit += OnColliderHit;
         }
 
         protected override void Process()
@@ -23,17 +23,16 @@ namespace JazzyLucas.Core
             // nothing for now
         }
 
-        private void OnColliderColliderHit(ControllerColliderHit hit)
+        private void OnColliderHit(ControllerColliderHit hit)
         {
             var rb = hit.collider.attachedRigidbody;
 
-            // Only push objects with a Rigidbody and not kinematic
-            if (rb == null || rb.isKinematic) 
+            if (rb == null || rb.isKinematic)
                 return;
 
-            // Check if the player is moving forward into the object
-            Vector3 pushDirection = new(hit.moveDirection.x, 0, hit.moveDirection.z);
-            rb.velocity = pushDirection * PushForce;
+            var pushDirection = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z).normalized;
+
+            rb.AddForce(pushDirection * PushForce, ForceMode.VelocityChange);
         }
     }
 }
