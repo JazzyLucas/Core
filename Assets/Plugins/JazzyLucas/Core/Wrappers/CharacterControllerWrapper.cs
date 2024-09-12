@@ -8,11 +8,11 @@ namespace JazzyLucas.Core
     [RequireComponent(typeof(CharacterController))]
     public class CharacterControllerWrapper : MonoBehaviour
     {
-        public event Action<ControllerColliderHit> OnColliderHit;
+        public event Action<ControllerColliderHit> OnColliderHitEvent;
         
         private void OnControllerColliderHit(ControllerColliderHit hit)
         {
-            OnColliderHit?.Invoke(hit);
+            OnColliderHitEvent?.Invoke(hit);
         }
     }
 }

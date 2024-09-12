@@ -10,12 +10,10 @@ namespace JazzyLucas.Core
         [field: SerializeField] public CharacterControllerWrapper CCWrapper { get; private set; }
         [field: SerializeField] public float PushForce { get; private set; } = 0.05f;
 
-        private Transform Transform => CCWrapper.transform;
-
         public override void Init()
         {
             base.Init();
-            CCWrapper.OnColliderHit += OnColliderHit;
+            CCWrapper.OnColliderHitEvent += OnColliderHitEvent;
         }
 
         protected override void Process()
@@ -23,7 +21,7 @@ namespace JazzyLucas.Core
             // nothing for now
         }
 
-        private void OnColliderHit(ControllerColliderHit hit)
+        private void OnColliderHitEvent(ControllerColliderHit hit)
         {
             var rb = hit.collider.attachedRigidbody;
 
