@@ -58,6 +58,9 @@ namespace JazzyLucas.Core
             if (CharacterController.isGrounded && _groundedTransform != null)
             {
                 _lastGroundedPosition = _groundedTransform.position;
+
+                // Update the path with the current grounded object
+                PathDrawer.UpdatePath(_groundedTransform);
             }
         }
 
@@ -68,6 +71,10 @@ namespace JazzyLucas.Core
             _isTriggerExitFired = false;
 
             _groundedTransform = other.transform;
+
+            // Start drawing the path for the grounded object
+            PathDrawer.StartPath(_groundedTransform);
+
             UpdateGrounding();
         }
 
@@ -78,6 +85,7 @@ namespace JazzyLucas.Core
             if (_groundedTransform == null)
             {
                 _groundedTransform = other.transform;
+
                 UpdateGrounding();
             }
 
@@ -85,6 +93,8 @@ namespace JazzyLucas.Core
             {
                 Debug.DrawLine(_lastGroundedPosition, _groundedTransform.position, Color.red);
                 _lastGroundedPosition = _groundedTransform.position;
+
+                PathDrawer.UpdatePath(_groundedTransform);
             }
         }
 
@@ -95,6 +105,8 @@ namespace JazzyLucas.Core
 
             if (_groundedTransform == other.transform)
             {
+                PathDrawer.StopPath(_groundedTransform);
+
                 _groundedTransform = null;
                 _lastGroundedPosition = Vector3.zero;
             }

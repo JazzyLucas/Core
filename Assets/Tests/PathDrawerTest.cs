@@ -18,9 +18,4 @@ public class PathDrawerTest : MonoBehaviour
     {
         PathDrawer.UpdatePath(target, pointSpacing);
     }
-
-    private void OnDestroy()
-    {
-        PathDrawer.StopPath(target);
-    }
 }
