@@ -9,6 +9,7 @@ namespace JazzyLucas.Core
     {
         [field: SerializeField] public ColliderWrapper ColliderWrapper { get; private set; }
         [field: SerializeField] public CharacterController CharacterController { get; private set; }
+        [field: SerializeField] public float overlapRadius = 0.5f;
         
         [field: Header("Debugging")]
         [field: SerializeField] public bool ShowDebugInOnGUI { get; private set; } = false;
@@ -17,8 +18,9 @@ namespace JazzyLucas.Core
         [field: HideInInspector] public bool _isTriggerStayFired { get; private set; }
         [field: HideInInspector] public bool _isTriggerExitFired { get; private set; }
         
-        private Transform _groundedTransform; // The platform the player is grounded on
-        private Vector3 _lastGroundedPosition; // Last frame's platform position
+        private Transform _groundedTransform;
+        private Vector3 _lastGroundedPosition = Vector3.zero;
+        private Vector3 _platformMovement;
         
         public override void Init()
         {
@@ -33,24 +35,35 @@ namespace JazzyLucas.Core
 
         protected override void Process()
         {
-            // nothing for now
-        }
-        
-        private void OnGUI()
-        {
-            if (!ShowDebugInOnGUI)
-                return;
-    
-            GUIStyle labelStyle = new(GUI.skin.label)
+            // Check if ColliderWrapper is still colliding with something
+            if (ColliderWrapper.CurrentTriggerCollider != null)
             {
-                fontSize = 20,
-                normal = new() { textColor = Color.white }
-            };
+                // Set _groundedTransform based on current collider if not set
+                if (_groundedTransform == null)
+                {
+                    _groundedTransform = ColliderWrapper.CurrentTriggerCollider.transform;
+                    _lastGroundedPosition = _groundedTransform.position;
+                }
 
-            // Display collision event flags
-            GUI.Label(new(10, 160, 300, 25), $"TriggerEnter Fired: {_isTriggerEnterFired}", labelStyle);
-            GUI.Label(new(10, 190, 300, 25), $"TriggerStay Fired: {_isTriggerStayFired}", labelStyle);
-            GUI.Label(new(10, 220, 300, 25), $"TriggerExit Fired: {_isTriggerExitFired}", labelStyle);
+                // Calculate platform movement
+                _platformMovement = _groundedTransform.position - _lastGroundedPosition;
+
+                // Move the character with the platform
+                CharacterController.Move(_platformMovement);
+
+                // Update the last known position of the platform
+                _lastGroundedPosition = _groundedTransform.position;
+
+                // Update the path for the grounded transform
+                PathDrawer.UpdatePath(_groundedTransform);
+            }
+            else
+            {
+                // Reset state if not grounded
+                _groundedTransform = null;
+                _lastGroundedPosition = Vector3.zero;
+                _platformMovement = Vector3.zero;
+            }
         }
         
         private void UpdateGrounding()
@@ -59,7 +72,7 @@ namespace JazzyLucas.Core
             {
                 _lastGroundedPosition = _groundedTransform.position;
 
-                // Update the path with the current grounded object
+                // Update the path for the grounded transform
                 PathDrawer.UpdatePath(_groundedTransform);
             }
         }
@@ -86,6 +99,9 @@ namespace JazzyLucas.Core
             {
                 _groundedTransform = other.transform;
 
+                // Start drawing the path for the grounded object
+                PathDrawer.StartPath(_groundedTransform);
+
                 UpdateGrounding();
             }
 
@@ -94,6 +110,7 @@ namespace JazzyLucas.Core
                 Debug.DrawLine(_lastGroundedPosition, _groundedTransform.position, Color.red);
                 _lastGroundedPosition = _groundedTransform.position;
 
+                // Update the path while staying grounded
                 PathDrawer.UpdatePath(_groundedTransform);
             }
         }
@@ -105,10 +122,12 @@ namespace JazzyLucas.Core
 
             if (_groundedTransform == other.transform)
             {
+                // Stop drawing the path for the grounded object
                 PathDrawer.StopPath(_groundedTransform);
 
                 _groundedTransform = null;
                 _lastGroundedPosition = Vector3.zero;
+                _platformMovement = Vector3.zero;
             }
         }
     }
