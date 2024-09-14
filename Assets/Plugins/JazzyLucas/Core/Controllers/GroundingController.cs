@@ -9,11 +9,16 @@ namespace JazzyLucas.Core
     {
         [field: SerializeField] public ColliderWrapper ColliderWrapper { get; private set; }
         [field: SerializeField] public CharacterController CharacterController { get; private set; }
+        
+        [field: Header("Debugging")]
+        [field: SerializeField] public bool ShowDebugInOnGUI { get; private set; } = false;
 
+        [field: HideInInspector] public bool _isTriggerEnterFired { get; private set; }
+        [field: HideInInspector] public bool _isTriggerStayFired { get; private set; }
+        [field: HideInInspector] public bool _isTriggerExitFired { get; private set; }
+        
         private Transform _groundedTransform; // The platform the player is grounded on
         private Vector3 _lastGroundedPosition; // Last frame's platform position
-        
-        private float _raycastDistance = 1.5f; // Adjust this distance as needed
         
         public override void Init()
         {
@@ -21,67 +26,78 @@ namespace JazzyLucas.Core
             ColliderWrapper.OnTriggerEnterEvent += OnTriggerEnter;
             ColliderWrapper.OnTriggerStayEvent += OnTriggerStay;
             ColliderWrapper.OnTriggerExitEvent += OnTriggerExit;
+            
+            // Ignore collision between the player and platform colliders
+            Physics.IgnoreCollision(ColliderWrapper.GetComponent<Collider>(), CharacterController); // Example usage
         }
 
         protected override void Process()
         {
-            UpdateGrounding();
-
-            if (_groundedTransform != null && CharacterController.isGrounded)
+            // nothing for now
+        }
+        
+        private void OnGUI()
+        {
+            if (!ShowDebugInOnGUI)
+                return;
+    
+            GUIStyle labelStyle = new(GUI.skin.label)
             {
-                // Calculate platform displacement (difference in position between frames)
-                Vector3 platformMovement = _groundedTransform.position - _lastGroundedPosition;
+                fontSize = 20,
+                normal = new() { textColor = Color.white }
+            };
 
-                // Log platform movement and character movement for debugging
-                L.Log("Platform Movement: " + platformMovement);
-                L.Log("Character Position: " + CharacterController.transform.position);
-
-                // Apply the platform's movement only if there's actual displacement
-                if (platformMovement.sqrMagnitude > 0.0001f)
-                {
-                    CharacterController.Move(platformMovement);
-                }
-
-                // Update the last grounded position for the next frame
-                _lastGroundedPosition = _groundedTransform.position;
-            }
+            // Display collision event flags
+            GUI.Label(new(10, 160, 300, 25), $"TriggerEnter Fired: {_isTriggerEnterFired}", labelStyle);
+            GUI.Label(new(10, 190, 300, 25), $"TriggerStay Fired: {_isTriggerStayFired}", labelStyle);
+            GUI.Label(new(10, 220, 300, 25), $"TriggerExit Fired: {_isTriggerExitFired}", labelStyle);
         }
         
         private void UpdateGrounding()
         {
-            // Cast a ray downwards to detect what the character is standing on
-            if (Physics.Raycast(CharacterController.transform.position, Vector3.down, out RaycastHit hit, _raycastDistance))
+            if (CharacterController.isGrounded && _groundedTransform != null)
             {
-                _groundedTransform = hit.transform;
-
-                // Only update the platform position if the character is grounded
-                if (CharacterController.isGrounded)
-                {
-                    _lastGroundedPosition = _groundedTransform.position;
-                }
-            }
-            else
-            {
-                _groundedTransform = null; // Not grounded
+                _lastGroundedPosition = _groundedTransform.position;
             }
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            // You can still use the trigger system if necessary, but it's now secondary to raycasts
+            _isTriggerEnterFired = true;
+            _isTriggerStayFired = false;
+            _isTriggerExitFired = false;
+
+            _groundedTransform = other.transform;
             UpdateGrounding();
         }
 
         private void OnTriggerStay(Collider other)
         {
-            // Continuously update grounded transform while grounded
-            UpdateGrounding();
+            _isTriggerStayFired = true; // Set to true when the event fires
+
+            if (_groundedTransform == null)
+            {
+                _groundedTransform = other.transform;
+                UpdateGrounding();
+            }
+
+            if (_groundedTransform != null)
+            {
+                Debug.DrawLine(_lastGroundedPosition, _groundedTransform.position, Color.red);
+                _lastGroundedPosition = _groundedTransform.position;
+            }
         }
 
         private void OnTriggerExit(Collider other)
         {
-            // Clear the grounded transform when leaving the platform
-            _groundedTransform = null;
+            _isTriggerExitFired = true; // Set to true when the event fires
+            _isTriggerStayFired = false; // Reset the stay flag
+
+            if (_groundedTransform == other.transform)
+            {
+                _groundedTransform = null;
+                _lastGroundedPosition = Vector3.zero;
+            }
         }
     }
 }

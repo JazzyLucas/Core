@@ -2977,8 +2977,8 @@ GameObject:
   - component: {fileID: 1473935252}
   - component: {fileID: 1473935254}
   - component: {fileID: 1473935255}
-  - component: {fileID: 1473935257}
   - component: {fileID: 1473935256}
+  - component: {fileID: 1473935257}
   m_Layer: 28
   m_Name: Player
   m_TagString: Untagged
@@ -3036,7 +3036,7 @@ MonoBehaviour:
   <runSpeed>k__BackingField: 6
   <jumpForce>k__BackingField: 0.8
   <flySpeed>k__BackingField: 12
-  <ShowDebugInOnGUI>k__BackingField: 1
+  <ShowDebugInOnGUI>k__BackingField: 0
 --- !u!114 &1473935254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3105,6 +3105,7 @@ MonoBehaviour:
   <InitOnAwake>k__BackingField: 1
   <ColliderWrapper>k__BackingField: {fileID: 1254493906}
   <CharacterController>k__BackingField: {fileID: 383854458}
+  <ShowDebugInOnGUI>k__BackingField: 1
 --- !u!1 &1479821863
 GameObject:
   m_ObjectHideFlags: 0
