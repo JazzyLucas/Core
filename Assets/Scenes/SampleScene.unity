@@ -2883,6 +2883,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3275d200e9990f46aa29e77fcfa6476, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <LogCollisions>k__BackingField: 1
 --- !u!1 &1257886992
 GameObject:
   m_ObjectHideFlags: 0
@@ -3169,6 +3170,7 @@ MonoBehaviour:
   <InitOnAwake>k__BackingField: 1
   <ColliderWrapper>k__BackingField: {fileID: 1254493906}
   <CharacterController>k__BackingField: {fileID: 383854458}
+  overlapRadius: 0.5
   <ShowDebugInOnGUI>k__BackingField: 1
 --- !u!1 &1479821863
 GameObject:

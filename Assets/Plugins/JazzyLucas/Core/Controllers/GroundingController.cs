@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using JazzyLucas.Core.Input;
+using JazzyLucas.Core.Utils;
 using L = JazzyLucas.Core.Utils.Logger;
 
 namespace JazzyLucas.Core
@@ -9,126 +10,78 @@ namespace JazzyLucas.Core
     {
         [field: SerializeField] public ColliderWrapper ColliderWrapper { get; private set; }
         [field: SerializeField] public CharacterController CharacterController { get; private set; }
-        [field: SerializeField] public float overlapRadius = 0.5f;
+        [field: SerializeField] public float overlapRadius = 0.5f; // Radius for the overlap sphere
         
         [field: Header("Debugging")]
         [field: SerializeField] public bool ShowDebugInOnGUI { get; private set; } = false;
 
-        [field: HideInInspector] public bool _isTriggerEnterFired { get; private set; }
-        [field: HideInInspector] public bool _isTriggerStayFired { get; private set; }
-        [field: HideInInspector] public bool _isTriggerExitFired { get; private set; }
+        [field: HideInInspector] public bool IsTriggerEnterFired { get; private set; }
+        [field: HideInInspector] public bool IsCurrentlyColliding => ColliderWrapper.CurrentTriggerCollider != null;
+        [field: HideInInspector] public bool IsTriggerExitFired { get; private set; }
         
-        private Transform _groundedTransform;
-        private Vector3 _lastGroundedPosition = Vector3.zero;
-        private Vector3 _platformMovement;
+        [field: HideInInspector] public Transform CollisionStartPoint { get; private set; }
+        [field: HideInInspector] public Transform CollisionCurrentPoint => ColliderWrapper.CurrentTriggerCollider.transform;
+        [field: HideInInspector] public Transform CollisionEndPoint { get; private set; }
+        
+        [field: HideInInspector] public Vector3 LatestProcessCollisionPosition { get; private set; } = Vector3.zero;
+        [field: HideInInspector] public Vector3 PreviousProcessCollisionPosition { get; private set; } = Vector3.zero;
+
+        [field: HideInInspector] public Vector3 DistanceFromLastProcess => LatestProcessCollisionPosition - PreviousProcessCollisionPosition;
         
         public override void Init()
         {
             base.Init();
             ColliderWrapper.OnTriggerEnterEvent += OnTriggerEnter;
-            ColliderWrapper.OnTriggerStayEvent += OnTriggerStay;
             ColliderWrapper.OnTriggerExitEvent += OnTriggerExit;
             
             // Ignore collision between the player and platform colliders
-            Physics.IgnoreCollision(ColliderWrapper.GetComponent<Collider>(), CharacterController); // Example usage
+            Physics.IgnoreCollision(ColliderWrapper.GetComponent<Collider>(), CharacterController);
         }
 
         protected override void Process()
         {
-            // Check if ColliderWrapper is still colliding with something
-            if (ColliderWrapper.CurrentTriggerCollider != null)
+            if (IsCurrentlyColliding)
             {
-                // Set _groundedTransform based on current collider if not set
-                if (_groundedTransform == null)
+                if (CollisionCurrentPoint == null && CollisionStartPoint == null)
                 {
-                    _groundedTransform = ColliderWrapper.CurrentTriggerCollider.transform;
-                    _lastGroundedPosition = _groundedTransform.position;
+                    L.Log("Currently colliding with something without a StartPoint / Enter event? (race condition?). Bailing.");
+                    return;
                 }
+                
+                //CharacterController.Move(DistanceFromLastProcess);
 
-                // Calculate platform movement
-                _platformMovement = _groundedTransform.position - _lastGroundedPosition;
-
-                // Move the character with the platform
-                CharacterController.Move(_platformMovement);
-
-                // Update the last known position of the platform
-                _lastGroundedPosition = _groundedTransform.position;
-
-                // Update the path for the grounded transform
-                PathDrawer.UpdatePath(_groundedTransform);
-            }
-            else
-            {
-                // Reset state if not grounded
-                _groundedTransform = null;
-                _lastGroundedPosition = Vector3.zero;
-                _platformMovement = Vector3.zero;
-            }
-        }
-        
-        private void UpdateGrounding()
-        {
-            if (CharacterController.isGrounded && _groundedTransform != null)
-            {
-                _lastGroundedPosition = _groundedTransform.position;
-
-                // Update the path for the grounded transform
-                PathDrawer.UpdatePath(_groundedTransform);
+                PreviousProcessCollisionPosition = LatestProcessCollisionPosition;
+                LatestProcessCollisionPosition = CollisionCurrentPoint.gameObject.transform.position;
+                    
+                PathDrawer.UpdatePath(CollisionCurrentPoint);
             }
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            _isTriggerEnterFired = true;
-            _isTriggerStayFired = false;
-            _isTriggerExitFired = false;
+            IsTriggerEnterFired = true;
+            IsTriggerExitFired = false;
 
-            _groundedTransform = other.transform;
-
-            // Start drawing the path for the grounded object
-            PathDrawer.StartPath(_groundedTransform);
-
-            UpdateGrounding();
-        }
-
-        private void OnTriggerStay(Collider other)
-        {
-            _isTriggerStayFired = true; // Set to true when the event fires
-
-            if (_groundedTransform == null)
-            {
-                _groundedTransform = other.transform;
-
-                // Start drawing the path for the grounded object
-                PathDrawer.StartPath(_groundedTransform);
-
-                UpdateGrounding();
-            }
-
-            if (_groundedTransform != null)
-            {
-                Debug.DrawLine(_lastGroundedPosition, _groundedTransform.position, Color.red);
-                _lastGroundedPosition = _groundedTransform.position;
-
-                // Update the path while staying grounded
-                PathDrawer.UpdatePath(_groundedTransform);
-            }
+            CollisionStartPoint = other.transform;
+            
+            PathDrawer.StartPath(CollisionStartPoint);
         }
 
         private void OnTriggerExit(Collider other)
         {
-            _isTriggerExitFired = true; // Set to true when the event fires
-            _isTriggerStayFired = false; // Reset the stay flag
+            IsTriggerEnterFired = false;
+            IsTriggerExitFired = true;
 
-            if (_groundedTransform == other.transform)
-            {
-                // Stop drawing the path for the grounded object
-                PathDrawer.StopPath(_groundedTransform);
+            CollisionEndPoint = other.transform;
+            
+            PathDrawer.ClearPath(CollisionStartPoint);
+            
+            ResetCollision();
+        }
 
-                _groundedTransform = null;
-                _lastGroundedPosition = Vector3.zero;
-                _platformMovement = Vector3.zero;
-            }
+        private void ResetCollision()
+        {
+            CollisionStartPoint = null;
         }
     }
 }
