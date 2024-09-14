@@ -1,38 +1,51 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class RandomMover : MonoBehaviour
 {
     public float moveSpeed = 2f;
     public float minDistance = 0.1f;
+    public float jitterAmount = 0f; // Set this to a value greater than 0 for jitter
 
     private Vector3 targetPosition;
 
-    void Start()
+    private void Start()
     {
         SetRandomDestination();
     }
 
-    void Update()
+    private void Update()
     {
         MoveTowardsTarget();
     }
 
-    void SetRandomDestination()
+    private void SetRandomDestination()
     {
-        var randomX = Random.Range(0f, 10f);
-        var randomZ = Random.Range(0f, 10f);
-        targetPosition = new(randomX, transform.position.y, randomZ);
+        targetPosition = new(
+            Random.Range(0f, 10f),
+            transform.position.y,
+            Random.Range(0f, 10f)
+        );
     }
 
-    void MoveTowardsTarget()
+    private void MoveTowardsTarget()
     {
-        // Move the object towards the target position
-        transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
+        // Apply jitter if jitterAmount is greater than 0
+        var jitter = Vector3.zero;
+        if (jitterAmount > 0f)
+        {
+            jitter = new(
+                Random.Range(-jitterAmount, jitterAmount),
+                0f,
+                Random.Range(-jitterAmount, jitterAmount)
+            );
+        }
 
-        // Check if the object is close enough to the target position
-        if (Vector3.Distance(transform.position, targetPosition) < minDistance)
+        // Move towards the target position with jitter
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition + jitter, moveSpeed * Time.deltaTime);
+
+        // Check if the object is "close enough" to the target position, considering jitter
+        float distanceToTarget = Vector3.Distance(transform.position, targetPosition);
+        if (distanceToTarget < minDistance + jitterAmount)
         {
             SetRandomDestination();
         }
