@@ -9,10 +9,9 @@ namespace JazzyLucas.Core
     {
         [field: SerializeField] public Overlap Overlap { get; private set; }
         [field: SerializeField] public CharacterController CharacterController { get; private set; }
-        [field: SerializeField] public float OverlapRadius { get; private set; } = 0.5f; // Radius for the overlap sphere
-
-        [field: Header("Debugging")]
-        [field: SerializeField] public bool ShowDebugInOnGUI { get; private set; } = false;
+        
+        [field: SerializeField] public MovementController MovementController { get; private set; }
+        public bool MovCont_IsInAir => MovementController.IsInAir || MovementController.IsJumping;
 
         // Overlap tracking
         private Collider currentCollider;
@@ -23,14 +22,19 @@ namespace JazzyLucas.Core
         [field: HideInInspector] public Transform CollisionCurrentPoint => currentCollider?.transform;
         [field: HideInInspector] public Transform CollisionEndPoint { get; private set; }
 
-        [field: HideInInspector] public Vector3 LatestProcessCollisionPosition { get; private set; } = Vector3.zero;
-        [field: HideInInspector] public Vector3 PreviousProcessCollisionPosition { get; private set; } = Vector3.zero;
+        [field: HideInInspector] public Vector3 Latest_Collider_Position { get; private set; }
+        [field: HideInInspector] public Vector3 Previous_Collider_Position { get; private set; }
 
-        [field: HideInInspector] public Vector3 DistanceFromLastProcess => LatestProcessCollisionPosition - PreviousProcessCollisionPosition;
+        [field: HideInInspector] public Vector3 DistanceFromLastProcess => Latest_Collider_Position - Previous_Collider_Position;
 
         public override void Init()
         {
             base.Init();
+            
+            foreach (var collider in CharacterController.GetComponentsInChildren<Collider>(true))
+            {
+                Overlap.GameObjectBlacklist.Add(collider.gameObject);
+            }
             
             Overlap.OnOverlapEnter += OnOverlapEnter;
             Overlap.OnOverlapStay += OnOverlapStay;
@@ -41,7 +45,7 @@ namespace JazzyLucas.Core
         {
             Overlap.DetectOverlap();
 
-            if (IsCurrentlyColliding)
+            if (IsCurrentlyColliding && !MovCont_IsInAir)
             {
                 if (CollisionCurrentPoint == null && CollisionStartPoint == null)
                 {
@@ -49,43 +53,45 @@ namespace JazzyLucas.Core
                     return;
                 }
 
-                // Update the position for movement calculation
-                PreviousProcessCollisionPosition = LatestProcessCollisionPosition;
-                LatestProcessCollisionPosition = CollisionCurrentPoint.position;
+                var platformMovement = new Vector3(DistanceFromLastProcess.x, 0f, DistanceFromLastProcess.z);
+                
+                // Apply movement only if the platformMovement vector is valid
+                if (platformMovement.sqrMagnitude > Mathf.Epsilon) 
+                {
+                    CharacterController.Move(platformMovement);
+                }
 
-                // Calculate the distance to move in X and Z, ignoring Y
-                var distanceToMove = new Vector3(DistanceFromLastProcess.x, 0f, DistanceFromLastProcess.z);
+                Previous_Collider_Position = Latest_Collider_Position;
+                Latest_Collider_Position = CollisionCurrentPoint.position;
 
-                // Move the character controller only in X/Z
-                CharacterController.Move(distanceToMove);
-
-                // Draw the path for debugging
                 PathDrawer.UpdatePath(CollisionCurrentPoint);
+
+                L.Log($"{currentCollider.gameObject.name}");
             }
         }
 
-
         private void OnOverlapEnter(Collider other)
         {
-            // This is called when a collider enters the overlap area
             if (currentCollider == null)
             {
                 currentCollider = other;
                 CollisionStartPoint = other.transform;
-                
+
+                // Initialize the collider positions to avoid large platform movement on the first process
+                Latest_Collider_Position = CollisionCurrentPoint.position;
+                Previous_Collider_Position = CollisionCurrentPoint.position;
+
                 PathDrawer.StartPath(CollisionStartPoint);
             }
         }
 
         private void OnOverlapStay(Collider other)
         {
-            // This is called when a collider stays within the overlap area
-            // Optional: Implement logic if needed to handle continuous stay
+            // nothing yet
         }
 
         private void OnOverlapExit(Collider other)
         {
-            // This is called when a collider exits the overlap area
             if (currentCollider == other)
             {
                 CollisionEndPoint = other.transform;

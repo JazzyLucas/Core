@@ -5,22 +5,28 @@ using UnityEngine;
 
 namespace JazzyLucas.Core
 {
+    /// <summary>
+    /// Overlaps are like raycasts but should be persistent.
+    /// <br></br>
+    /// They can't collide with each other.
+    /// </summary>
     public abstract class Overlap : MonoBehaviour
     {
+        [field: SerializeField] public LayerMask LayerMask { get; private set; } = Physics.DefaultRaycastLayers;
+
+        [field: SerializeField] public List<GameObject> GameObjectBlacklist { get; private set; } = new List<GameObject>();
+
         public event Action<Collider> OnOverlapEnter;
         public event Action<Collider> OnOverlapStay;
         public event Action<Collider> OnOverlapExit;
 
-        [field: SerializeField] public LayerMask LayerMask { get; private set; } = Physics.DefaultRaycastLayers;
-
-        // Track current overlapping colliders
-        private HashSet<Collider> currentColliders = new HashSet<Collider>();
+        private HashSet<Collider> currentColliders = new();
 
         public void DetectOverlap()
         {
             var colliders = PerformOverlap();
 
-            HashSet<Collider> currentFrameColliders = new(colliders);
+            HashSet<Collider> currentFrameColliders = new (colliders.Where(collider => !IsBlacklisted(collider)));
 
             // Enter
             foreach (var collider in currentFrameColliders.Where(collider => !currentColliders.Contains(collider)))
@@ -41,6 +47,11 @@ namespace JazzyLucas.Core
             }
 
             currentColliders = currentFrameColliders;
+        }
+
+        private bool IsBlacklisted(Collider collider)
+        {
+            return GameObjectBlacklist.Contains(collider.gameObject);
         }
 
         protected abstract Collider[] PerformOverlap();

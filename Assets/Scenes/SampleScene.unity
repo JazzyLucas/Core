@@ -3180,7 +3180,7 @@ MonoBehaviour:
   <runSpeed>k__BackingField: 6
   <jumpForce>k__BackingField: 0.8
   <flySpeed>k__BackingField: 12
-  <ShowDebugInOnGUI>k__BackingField: 0
+  <ShowDebugInOnGUI>k__BackingField: 1
 --- !u!114 &1473935254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3249,8 +3249,7 @@ MonoBehaviour:
   <InitOnAwake>k__BackingField: 1
   <Overlap>k__BackingField: {fileID: 1254493905}
   <CharacterController>k__BackingField: {fileID: 383854458}
-  <OverlapRadius>k__BackingField: 0.5
-  <ShowDebugInOnGUI>k__BackingField: 1
+  <MovementController>k__BackingField: {fileID: 1473935253}
 --- !u!1 &1479821863
 GameObject:
   m_ObjectHideFlags: 0
