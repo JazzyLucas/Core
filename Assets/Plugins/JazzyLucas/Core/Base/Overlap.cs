@@ -24,35 +24,32 @@ namespace JazzyLucas.Core
 
         public void DetectOverlap()
         {
-            var colliders = PerformOverlap();
+            HashSet<Collider> newColliders = new(PerformOverlap().Where(collider => !IsBlacklisted(collider)));
 
-            HashSet<Collider> currentFrameColliders = new (colliders.Where(collider => !IsBlacklisted(collider)));
+            HandleEvents_WithCurrentColliders(newColliders);
 
-            // Enter
-            foreach (var collider in currentFrameColliders.Where(collider => !currentColliders.Contains(collider)))
+            currentColliders = newColliders;
+        }
+
+        private void HandleEvents_WithCurrentColliders(HashSet<Collider> newColliders)
+        {
+            foreach (var collider in newColliders.Except(currentColliders))
             {
                 OnOverlapEnter?.Invoke(collider);
             }
 
-            // Stay
-            foreach (var collider in currentFrameColliders.Where(collider => currentColliders.Contains(collider)))
+            foreach (var collider in newColliders.Intersect(currentColliders))
             {
                 OnOverlapStay?.Invoke(collider);
             }
 
-            // Exit
-            foreach (var collider in currentColliders.Where(collider => !currentFrameColliders.Contains(collider)))
+            foreach (var collider in currentColliders.Except(newColliders))
             {
                 OnOverlapExit?.Invoke(collider);
             }
-
-            currentColliders = currentFrameColliders;
         }
 
-        private bool IsBlacklisted(Collider collider)
-        {
-            return GameObjectBlacklist.Contains(collider.gameObject);
-        }
+        private bool IsBlacklisted(Collider collider) => GameObjectBlacklist.Contains(collider.gameObject);
 
         protected abstract Collider[] PerformOverlap();
 
