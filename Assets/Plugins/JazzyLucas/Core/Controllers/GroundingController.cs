@@ -18,13 +18,12 @@ namespace JazzyLucas.Core
         
         [field: HideInInspector] public bool IsCurrentlyColliding => currentCollider != null;
 
-        [field: HideInInspector] public Transform CollisionStartPoint { get; private set; }
-        [field: HideInInspector] public Transform CollisionCurrentPoint => currentCollider?.transform;
-        [field: HideInInspector] public Transform CollisionEndPoint { get; private set; }
+        [field: HideInInspector] public Vector3? collisionStartPoint { get; private set; }
+        [field: HideInInspector] private Transform currentColliderTransform => currentCollider?.transform;
+        [field: HideInInspector] public Vector3? collisionEndPoint { get; private set; }
 
         [field: HideInInspector] public Vector3 Latest_Collider_Position { get; private set; }
         [field: HideInInspector] public Vector3 Previous_Collider_Position { get; private set; }
-
         [field: HideInInspector] public Vector3 DistanceFromLastProcess => Latest_Collider_Position - Previous_Collider_Position;
 
         public override void Init()
@@ -47,7 +46,7 @@ namespace JazzyLucas.Core
 
             if (IsCurrentlyColliding && !MovCont_IsInAir)
             {
-                if (CollisionCurrentPoint == null && CollisionStartPoint == null)
+                if (currentColliderTransform == null && collisionStartPoint == null)
                 {
                     L.Log("Currently colliding with something without a StartPoint / Enter event? (race condition?). Bailing.");
                     return;
@@ -62,9 +61,9 @@ namespace JazzyLucas.Core
                 }
 
                 Previous_Collider_Position = Latest_Collider_Position;
-                Latest_Collider_Position = CollisionCurrentPoint.position;
+                Latest_Collider_Position = currentColliderTransform.position;
 
-                PathDrawer.UpdatePath(CollisionCurrentPoint);
+                PathDrawer.UpdatePath(currentColliderTransform);
 
                 L.Log($"{currentCollider.gameObject.name}");
             }
@@ -75,13 +74,13 @@ namespace JazzyLucas.Core
             if (currentCollider == null)
             {
                 currentCollider = other;
-                CollisionStartPoint = other.transform;
+                collisionStartPoint = other.transform.position;
 
                 // Initialize the collider positions to avoid large platform movement on the first process
-                Latest_Collider_Position = CollisionCurrentPoint.position;
-                Previous_Collider_Position = CollisionCurrentPoint.position;
+                Latest_Collider_Position = currentColliderTransform.position;
+                Previous_Collider_Position = currentColliderTransform.position;
 
-                PathDrawer.StartPath(CollisionStartPoint);
+                PathDrawer.StartPath(other.transform);
             }
         }
 
@@ -94,9 +93,9 @@ namespace JazzyLucas.Core
         {
             if (currentCollider == other)
             {
-                CollisionEndPoint = other.transform;
+                collisionEndPoint = other.transform.position;
                 
-                PathDrawer.ClearPath(CollisionStartPoint);
+                PathDrawer.ClearPath(other.transform);
                 
                 ResetCollision();
             }
@@ -104,7 +103,7 @@ namespace JazzyLucas.Core
 
         private void ResetCollision()
         {
-            CollisionStartPoint = null;
+            collisionStartPoint = null;
             currentCollider = null;
         }
 

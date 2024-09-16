@@ -4,12 +4,16 @@ public class RandomMover : MonoBehaviour
 {
     public float moveSpeed = 2f;
     public float minDistance = 0.1f;
+    public float maxDistance = 5f; // Maximum distance from the initial position
     public float jitterAmount = 0f; // Set this to a value greater than 0 for jitter
 
+    private Vector3 initialPosition; // The starting position of the object
     private Vector3 targetPosition;
 
     private void Start()
     {
+        // Store the initial position of the object
+        initialPosition = transform.position;
         SetRandomDestination();
     }
 
@@ -20,10 +24,11 @@ public class RandomMover : MonoBehaviour
 
     private void SetRandomDestination()
     {
-        targetPosition = new(
-            Random.Range(0f, 10f),
-            transform.position.y,
-            Random.Range(0f, 10f)
+        // Set a random destination within the maxDistance from the initial position
+        targetPosition = new Vector3(
+            Random.Range(initialPosition.x - maxDistance, initialPosition.x + maxDistance),
+            initialPosition.y,
+            Random.Range(initialPosition.z - maxDistance, initialPosition.z + maxDistance)
         );
     }
 
@@ -33,7 +38,7 @@ public class RandomMover : MonoBehaviour
         var jitter = Vector3.zero;
         if (jitterAmount > 0f)
         {
-            jitter = new(
+            jitter = new Vector3(
                 Random.Range(-jitterAmount, jitterAmount),
                 0f,
                 Random.Range(-jitterAmount, jitterAmount)
