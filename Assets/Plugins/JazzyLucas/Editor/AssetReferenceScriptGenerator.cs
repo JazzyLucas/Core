@@ -59,8 +59,21 @@ namespace JazzyLucas.Editor
         {
             var indent = new string(' ', indentLevel * 4);
 
+            // Check if directory is in the blacklist
+            if (IsPathBlacklisted(directory))
+            {
+                L.Log($"Directory {directory} is blacklisted. Skipping.");
+                return;
+            }
+
             foreach (var subdirectory in Directory.GetDirectories(directory))
             {
+                if (IsPathBlacklisted(subdirectory))
+                {
+                    L.Log($"Subdirectory {subdirectory} is blacklisted. Skipping.");
+                    continue;
+                }
+
                 if (Directory.GetFiles(subdirectory, "*.prefab").Any() || Directory.GetDirectories(subdirectory).Any())
                 {
                     var folderName = CapitalizeFirstLetter(Path.GetFileName(subdirectory).Replace(" ", "_"));
@@ -78,12 +91,20 @@ namespace JazzyLucas.Editor
 
             foreach (var file in Directory.GetFiles(directory, "*.prefab"))
             {
+                if (IsPathBlacklisted(file))
+                {
+                    L.Log($"File {file} is blacklisted. Skipping.");
+                    continue;
+                }
+
                 var fileName = CapitalizeFirstLetter(Path.GetFileNameWithoutExtension(file).Replace(" ", "_"));
                 var relativePath = file.Replace(Application.dataPath, "Assets").Replace("\\", "/");
                 sb.AppendLine($"{indent}public static readonly GameObject {fileName} = AssetDatabase.LoadAssetAtPath<GameObject>(\"{relativePath}\");");
                 L.Log($"Added prefab reference for file: {file} as {fileName}");
             }
         }
+
+        private static bool IsPathBlacklisted(string path) => config.Blacklist.Any(blacklistedPath => path.StartsWith(blacklistedPath, StringComparison.OrdinalIgnoreCase));
 
         private static string CapitalizeFirstLetter(string input) => string.IsNullOrEmpty(input) ? input : char.ToUpper(input[0]) + input[1..];
 
