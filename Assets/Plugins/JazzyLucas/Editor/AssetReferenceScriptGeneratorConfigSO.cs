@@ -9,18 +9,18 @@ namespace JazzyLucas.Editor
     public class AssetReferenceScriptGeneratorConfigSO : ScriptableObject
     {
         [field: Tooltip("Path to folder to recursively scan for assets.")]
-        public string AssetsPath = "Assets/Prefabs";
+        public string AssetsPath = "Assets";
         
         [field: Tooltip("What paths to ignore when scanning.")]
-        public string[] Blacklist = {"Assets/Prefabs/Generated"};
+        public string[] Blacklist;
         
         [field: Tooltip("Where to create/update generated script file.")]
-        public string OutputPath = "Assets/Prefabs/Generated";
+        public string OutputPath = "Assets/Generated";
         
         [field: Tooltip("File name of the generated script.")]
-        public string FileName = "Prefabs";
+        public string FileName = "AssetReferences";
         
         [field: Tooltip("Class name of the generated script.")]
-        public string ClassName = "Prefabs";
+        public string ClassName = "AssetReferences";
     }
 }

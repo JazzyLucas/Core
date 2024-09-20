@@ -1,0 +1,55 @@
+using UnityEngine;
+using UnityEditor;
+
+public static class AssetReferences
+{
+    public static class Plugins
+    {
+        public static class JazzyLucas
+        {
+            public static class Core
+            {
+                public static class Holograms
+                {
+                    public static class Prefabs
+                    {
+                        public static readonly GameObject TextHologram = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Plugins/JazzyLucas/Core/Holograms/Prefabs/TextHologram.prefab");
+                    }
+                    public static readonly GameObject HologramsManager = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Plugins/JazzyLucas/Core/Holograms/HologramsManager.prefab");
+                }
+                public static class Materials
+                {
+                }
+                public static class Tooltips
+                {
+                    public static class Prefabs
+                    {
+                        public static readonly GameObject TextTooltip = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Plugins/JazzyLucas/Core/Tooltips/Prefabs/TextTooltip.prefab");
+                    }
+                    public static readonly GameObject TooltipsManager = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Plugins/JazzyLucas/Core/Tooltips/TooltipsManager.prefab");
+                }
+            }
+        }
+    }
+    public static class TextMesh_Pro
+    {
+        public static class Resources
+        {
+        }
+    }
+    public static class _Sample
+    {
+        public static class Prefabs
+        {
+            public static class Terrain_Testing
+            {
+                public static readonly GameObject CheckerboardTile = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_Sample/Prefabs/Terrain Testing/CheckerboardTile.prefab");
+                public static readonly GameObject TrianglePatternTile = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_Sample/Prefabs/Terrain Testing/TrianglePatternTile.prefab");
+            }
+            public static readonly GameObject CustomTooltip_Prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_Sample/Prefabs/CustomTooltip Prefab.prefab");
+        }
+        public static class Scripts
+        {
+        }
+    }
+}

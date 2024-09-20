@@ -1,14 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using JazzyLucas.Editor;
 using UnityEditor;
 using UnityEngine;
 using L = JazzyLucas.Core.Utils.Logger;
 
 public class AssetGeneratorTest : UnityEditor.Editor
 {
-    [MenuItem("Tools/_Sample/Generate Asset References")]
-    public virtual void Generate()
+    private const string SAMPLE_CONFIG_SO_PATH = "Assets/_Sample/Editor/AssetReferenceScriptGeneratorConfig.asset";
+
+    [MenuItem("Tools/Sample/Run Sample GenerateAssetReferences", false, 0)]
+    public static void GeneratePrefabReferences()
     {
-        Debug.Log("Base prefab generator logic. This can be overridden.");
+        var config = AssetDatabase.LoadAssetAtPath<AssetReferenceScriptGeneratorConfigSO>(SAMPLE_CONFIG_SO_PATH);
+        AssetReferenceScriptGenerator.GeneratePrefabReferences(config);
     }
 }

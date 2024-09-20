@@ -13,21 +13,28 @@ namespace JazzyLucas.Editor
 {
     public class AssetReferenceScriptGenerator : UnityEditor.Editor
     {
-        private const string CONFIG_SO_PATH = "Assets/Plugins/JazzyLucas/Editor/AssetReferenceScriptGeneratorConfig.asset";
+        private const string DEFAULT_CONFIG_SO_PATH = "Assets/Plugins/JazzyLucas/Editor/AssetReferenceScriptGeneratorConfig.asset";
 
-        private static AssetReferenceScriptGeneratorConfigSO config;
-        private static string assetsPath => config.AssetsPath;
-        private static string outputPath => config.OutputPath;
-        private static string fileName => config.FileName;
-        private static string className => config.ClassName;
-
-        [MenuItem("Tools/JazzyLucas/Generate Asset References")]
+        [MenuItem("Tools/JazzyLucas.Editor/Run Default GenerateAssetReferences")]
         public static void GeneratePrefabReferences()
         {
-            L.Log($"Running GeneratePrefabReferences()");
-            
-            if (!LoadConfig())
+            L.Log($"Running Default GeneratePrefabReferences()");
+
+            if (!LoadOrCreateDefaultConfig(out var config))
+            {
+                L.Log(LogSeverity.ERROR, "Failed to create or load the default config.");
                 return;
+            }
+
+            GeneratePrefabReferences(config);
+        }
+
+        public static void GeneratePrefabReferences(AssetReferenceScriptGeneratorConfigSO config)
+        {
+            string assetsPath = config.AssetsPath;
+            string outputPath = config.OutputPath;
+            string fileName = config.FileName;
+            string className = config.ClassName;
 
             L.Log($"Starting generation of prefab references from {assetsPath} to {outputPath}");
 
@@ -44,7 +51,7 @@ namespace JazzyLucas.Editor
             sb.AppendLine($"public static class {className}");
             sb.AppendLine("{");
 
-            GeneratePrefabClasses(assetsPath, sb, 1);
+            GeneratePrefabClasses(config, assetsPath, sb, 1);
 
             sb.AppendLine("}");
 
@@ -54,13 +61,13 @@ namespace JazzyLucas.Editor
 
             AssetDatabase.Refresh();
         }
-
-        private static void GeneratePrefabClasses(string directory, StringBuilder sb, int indentLevel)
+        
+        private static void GeneratePrefabClasses(AssetReferenceScriptGeneratorConfigSO config, string directory, StringBuilder sb, int indentLevel)
         {
             var indent = new string(' ', indentLevel * 4);
 
             // Check if directory is in the blacklist
-            if (IsPathBlacklisted(directory))
+            if (IsPathBlacklisted(config, directory))
             {
                 L.Log($"Directory {directory} is blacklisted. Skipping.");
                 return;
@@ -68,7 +75,7 @@ namespace JazzyLucas.Editor
 
             foreach (var subdirectory in Directory.GetDirectories(directory))
             {
-                if (IsPathBlacklisted(subdirectory))
+                if (IsPathBlacklisted(config, subdirectory))
                 {
                     L.Log($"Subdirectory {subdirectory} is blacklisted. Skipping.");
                     continue;
@@ -79,7 +86,7 @@ namespace JazzyLucas.Editor
                     var folderName = CapitalizeFirstLetter(Path.GetFileName(subdirectory).Replace(" ", "_"));
                     sb.AppendLine($"{indent}public static class {folderName}");
                     sb.AppendLine($"{indent}{{");
-                    GeneratePrefabClasses(subdirectory, sb, indentLevel + 1);
+                    GeneratePrefabClasses(config, subdirectory, sb, indentLevel + 1);
                     sb.AppendLine($"{indent}}}");
                     L.Log($"Added class for directory: {subdirectory}");
                 }
@@ -91,7 +98,7 @@ namespace JazzyLucas.Editor
 
             foreach (var file in Directory.GetFiles(directory, "*.prefab"))
             {
-                if (IsPathBlacklisted(file))
+                if (IsPathBlacklisted(config, file))
                 {
                     L.Log($"File {file} is blacklisted. Skipping.");
                     continue;
@@ -104,29 +111,30 @@ namespace JazzyLucas.Editor
             }
         }
 
-        private static bool IsPathBlacklisted(string path) => config.Blacklist.Any(blacklistedPath => path.StartsWith(blacklistedPath, StringComparison.OrdinalIgnoreCase));
-
-        private static string CapitalizeFirstLetter(string input) => string.IsNullOrEmpty(input) ? input : char.ToUpper(input[0]) + input[1..];
-
-        private static bool LoadConfig()
+        private static bool LoadOrCreateDefaultConfig(out AssetReferenceScriptGeneratorConfigSO config)
         {
-            config = AssetDatabase.LoadAssetAtPath<AssetReferenceScriptGeneratorConfigSO>(CONFIG_SO_PATH);
+            config = AssetDatabase.LoadAssetAtPath<AssetReferenceScriptGeneratorConfigSO>(DEFAULT_CONFIG_SO_PATH);
 
             if (config is null)
             {
-                L.Log(LogSeverity.ERROR, $"Config SO not found at {CONFIG_SO_PATH}. Creating default config file.");
+                L.Log(LogSeverity.ERROR, $"Config SO not found at {DEFAULT_CONFIG_SO_PATH}. Creating default config file.");
 
                 config = CreateInstance<AssetReferenceScriptGeneratorConfigSO>();
-                AssetDatabase.CreateAsset(config, CONFIG_SO_PATH);
+                AssetDatabase.CreateAsset(config, DEFAULT_CONFIG_SO_PATH);
+                AssetDatabase.RenameAsset(DEFAULT_CONFIG_SO_PATH, "DefaultAssetReferenceScriptGeneratorConfig");
                 AssetDatabase.SaveAssets();
-
-                L.Log($"Default config SO created at {CONFIG_SO_PATH}");
+                
+                L.Log($"Default config SO created at {DEFAULT_CONFIG_SO_PATH}");
                 L.Log($"Please verify config, then run again.");
                 return false;
             }
 
-            L.Log($"Config loaded: Prefabs Path = {assetsPath}, Output Path = {outputPath}");
+            L.Log($"Config loaded: Prefabs Path = {config.AssetsPath}, Output Path = {config.OutputPath}");
             return true;
         }
+
+        private static bool IsPathBlacklisted(AssetReferenceScriptGeneratorConfigSO config, string path) => config.Blacklist.Any(blacklistedPath => path.StartsWith(blacklistedPath, StringComparison.OrdinalIgnoreCase));
+
+        private static string CapitalizeFirstLetter(string input) => string.IsNullOrEmpty(input) ? input : char.ToUpper(input[0]) + input[1..];
     }
 }
