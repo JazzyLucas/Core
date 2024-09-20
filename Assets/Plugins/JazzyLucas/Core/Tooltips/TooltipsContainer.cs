@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace JazzyLucas.Core
 {
-    [CreateAssetMenu(fileName = "TooltipsContainer", menuName = "Container/TooltipsContainer")]
+    [CreateAssetMenu(fileName = "TooltipsContainer", menuName = "JazzyLucas.Core/Container/TooltipsContainer")]
     public class TooltipsContainer : Container
     {
         [field: SerializeField] public TextTooltip TextTooltipPrefab { get; private set; }

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace JazzyLucas.Core
 {
-    [CreateAssetMenu(fileName = "HologramsContainer", menuName = "Container/HologramsContainer")]
+    [CreateAssetMenu(fileName = "HologramsContainer", menuName = "JazzyLucas.Core/Container/HologramsContainer")]
     public class HologramsContainer : Container
     {
         [field: SerializeField] public TextHologram TextHologramPrefab { get; private set; }
