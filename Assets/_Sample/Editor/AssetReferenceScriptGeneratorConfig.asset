@@ -14,7 +14,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AssetsPath: Assets/_Sample
   Blacklist:
-  - Assets/Prefabs/Generated
+  - Assets/TextMesh Pro
   OutputPath: Assets/_Sample/Generated
   FileName: References
   ClassName: References
+  ValidAssetTypes:
+    Prefabs: 1
+    Materials: 1
+    ScriptableObjects: 1
+    Textures: 1
+    Meshes: 1
+    Animations: 1
+    AudioClips: 1
+    Shaders: 1
+    Fonts: 1
+    VideoClips: 1
+    Sprites: 1
+    ParticleSystems: 1
+    NavMeshData: 0
+    LightingData: 0
+    PhysicsMaterials: 0
+    Terrains: 0
+    RenderTextures: 1

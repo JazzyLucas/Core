@@ -7,6 +7,8 @@ using System.Text;
 using JazzyLucas.Core.Utils;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.Video;
 using L = JazzyLucas.Core.Utils.Logger;
 
 namespace JazzyLucas.Editor
@@ -85,49 +87,48 @@ namespace JazzyLucas.Editor
         private static void GeneratePrefabClasses(AssetReferenceScriptGeneratorConfigSO config, string directory, StringBuilder sb, int indentLevel)
         {
             var indent = new string(' ', indentLevel * 4);
+            bool directoryHasValidAssets = false;
 
             // Check if directory is in the blacklist
-            if (IsPathBlacklisted(config, directory))
-            {
-                L.Log($"Directory {directory} is blacklisted. Skipping.");
-                return;
-            }
+            if (IsPathBlacklisted(config, directory)) return;
 
             foreach (var subdirectory in Directory.GetDirectories(directory))
             {
-                if (IsPathBlacklisted(config, subdirectory))
-                {
-                    L.Log($"Subdirectory {subdirectory} is blacklisted. Skipping.");
-                    continue;
-                }
+                if (IsPathBlacklisted(config, subdirectory)) continue;
 
-                if (Directory.GetFiles(subdirectory, "*.prefab").Any() || Directory.GetDirectories(subdirectory).Any())
+                StringBuilder subdirectorySb = new StringBuilder();
+                GeneratePrefabClasses(config, subdirectory, subdirectorySb, indentLevel + 1);
+
+                if (subdirectorySb.Length > 0)
                 {
-                    var folderName = CapitalizeFirstLetter(Path.GetFileName(subdirectory).Replace(" ", "_"));
+                    // Sanitize folder names
+                    var folderName = SanitizeName(Path.GetFileName(subdirectory));
                     sb.AppendLine($"{indent}public static class {folderName}");
                     sb.AppendLine($"{indent}{{");
-                    GeneratePrefabClasses(config, subdirectory, sb, indentLevel + 1);
+                    sb.Append(subdirectorySb);
                     sb.AppendLine($"{indent}}}");
-                    L.Log($"Added class for directory: {subdirectory}");
-                }
-                else
-                {
-                    L.Log($"Skipped empty directory: {subdirectory}");
+                    directoryHasValidAssets = true;
                 }
             }
 
-            foreach (var file in Directory.GetFiles(directory, "*.prefab"))
+            foreach (var file in Directory.GetFiles(directory))
             {
-                if (IsPathBlacklisted(config, file))
-                {
-                    L.Log($"File {file} is blacklisted. Skipping.");
-                    continue;
-                }
+                if (IsPathBlacklisted(config, file)) continue;
 
-                var fileName = CapitalizeFirstLetter(Path.GetFileNameWithoutExtension(file).Replace(" ", "_"));
+                if (!IsValidAssetType(file, config)) continue;
+
+                var fileName = SanitizeName(Path.GetFileNameWithoutExtension(file));
                 var relativePath = file.Replace(Application.dataPath, "Assets").Replace("\\", "/");
-                sb.AppendLine($"{indent}public static readonly GameObject {fileName} = AssetDatabase.LoadAssetAtPath<GameObject>(\"{relativePath}\");");
-                L.Log($"Added prefab reference for file: {file} as {fileName}");
+
+                var assetType = AssetDatabase.GetMainAssetTypeAtPath(file);
+
+                sb.AppendLine($"{indent}public static readonly {assetType.Name} {fileName} = AssetDatabase.LoadAssetAtPath<{assetType.Name}>(\"{relativePath}\");");
+                directoryHasValidAssets = true;
+            }
+
+            if (!directoryHasValidAssets)
+            {
+                sb.Clear();
             }
         }
 
@@ -152,9 +153,50 @@ namespace JazzyLucas.Editor
             L.Log($"Config loaded: Prefabs Path = {config.AssetsPath}, Output Path = {config.OutputPath}");
             return true;
         }
+        
+        private static bool IsValidAssetType(string filePath, AssetReferenceScriptGeneratorConfigSO config)
+        {
+            var assetType = AssetDatabase.GetMainAssetTypeAtPath(filePath);
+            var extension = Path.GetExtension(filePath).ToLower();
 
+            if (config.ValidAssetTypes.Prefabs && extension == ".prefab") return true;
+            if (config.ValidAssetTypes.Materials && extension == ".mat") return true;
+            if (config.ValidAssetTypes.ScriptableObjects && assetType == typeof(ScriptableObject)) return true;
+            if (config.ValidAssetTypes.Textures && extension is ".png" or ".jpg" or ".tga" or ".psd") return true;
+            if (config.ValidAssetTypes.Meshes && assetType == typeof(Mesh)) return true;
+            if (config.ValidAssetTypes.Animations && assetType == typeof(AnimationClip)) return true;
+            if (config.ValidAssetTypes.AudioClips && extension == ".mp3" || extension == ".wav") return true;
+            if (config.ValidAssetTypes.Shaders && extension == ".shader") return true;
+            if (config.ValidAssetTypes.Fonts && extension == ".ttf") return true;
+            if (config.ValidAssetTypes.VideoClips && extension == ".mp4") return true;
+            if (config.ValidAssetTypes.Sprites && assetType == typeof(Sprite)) return true;
+            if (config.ValidAssetTypes.ParticleSystems && assetType == typeof(ParticleSystem)) return true;
+            if (config.ValidAssetTypes.NavMeshData && assetType == typeof(NavMeshData)) return true;
+            if (config.ValidAssetTypes.LightingData && assetType == typeof(LightingDataAsset)) return true;
+            if (config.ValidAssetTypes.PhysicsMaterials && extension is ".physicmaterial" or ".physicmaterial2d") return true;
+            if (config.ValidAssetTypes.Terrains && assetType == typeof(Terrain)) return true;
+            if (config.ValidAssetTypes.RenderTextures && extension == ".rendertexture") return true;
+
+            return false;
+        }
+        
         private static bool IsPathBlacklisted(AssetReferenceScriptGeneratorConfigSO config, string path) => config.Blacklist.Any(blacklistedPath => path.StartsWith(blacklistedPath, StringComparison.OrdinalIgnoreCase));
+        
+        private static string SanitizeName(string input)
+        {
+            var sanitized = System.Text.RegularExpressions.Regex.Replace(input, @"[^a-zA-Z0-9_]", "_");
 
-        private static string CapitalizeFirstLetter(string input) => string.IsNullOrEmpty(input) ? input : char.ToUpper(input[0]) + input[1..];
+            if (char.IsDigit(sanitized[0]))
+            {
+                sanitized = "_" + sanitized;
+            }
+
+            return CapitalizeFirstLetter(sanitized);
+        }
+        private static string CapitalizeFirstLetter(string input)
+        {
+            if (string.IsNullOrEmpty(input)) return input;
+            return char.ToUpper(input[0]) + input.Substring(1);
+        }
     }
 }

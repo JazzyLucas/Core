@@ -29,6 +29,30 @@ public static class AssetReferences
                 }
                 public static class Materials
                 {
+                    public static class Solid_NonMetallic_NonSmooth
+                    {
+                        public static readonly Material Black_Solid_NonMetallic_NonSmooth = AssetDatabase.LoadAssetAtPath<Material>("Assets/Plugins/JazzyLucas/Core/Materials/Solid NonMetallic NonSmooth/Black Solid NonMetallic NonSmooth.mat");
+                        public static readonly Material Blue_Solid_NonMetallic_NonSmooth = AssetDatabase.LoadAssetAtPath<Material>("Assets/Plugins/JazzyLucas/Core/Materials/Solid NonMetallic NonSmooth/Blue Solid NonMetallic NonSmooth.mat");
+                        public static readonly Material Gray_Solid_NonMetallic_NonSmooth = AssetDatabase.LoadAssetAtPath<Material>("Assets/Plugins/JazzyLucas/Core/Materials/Solid NonMetallic NonSmooth/Gray Solid NonMetallic NonSmooth.mat");
+                        public static readonly Material Green_Solid_NonMetallic_NonSmooth = AssetDatabase.LoadAssetAtPath<Material>("Assets/Plugins/JazzyLucas/Core/Materials/Solid NonMetallic NonSmooth/Green Solid NonMetallic NonSmooth.mat");
+                        public static readonly Material Orange_Solid_NonMetallic_NonSmooth = AssetDatabase.LoadAssetAtPath<Material>("Assets/Plugins/JazzyLucas/Core/Materials/Solid NonMetallic NonSmooth/Orange Solid NonMetallic NonSmooth.mat");
+                        public static readonly Material Purple_Solid_NonMetallic_NonSmooth = AssetDatabase.LoadAssetAtPath<Material>("Assets/Plugins/JazzyLucas/Core/Materials/Solid NonMetallic NonSmooth/Purple Solid NonMetallic NonSmooth.mat");
+                        public static readonly Material Red_Solid_NonMetallic_NonSmooth = AssetDatabase.LoadAssetAtPath<Material>("Assets/Plugins/JazzyLucas/Core/Materials/Solid NonMetallic NonSmooth/Red Solid NonMetallic NonSmooth.mat");
+                        public static readonly Material White_Solid_NonMetallic_NonSmooth = AssetDatabase.LoadAssetAtPath<Material>("Assets/Plugins/JazzyLucas/Core/Materials/Solid NonMetallic NonSmooth/White Solid NonMetallic NonSmooth.mat");
+                        public static readonly Material Yellow_Solid_NonMetallic_NonSmooth = AssetDatabase.LoadAssetAtPath<Material>("Assets/Plugins/JazzyLucas/Core/Materials/Solid NonMetallic NonSmooth/Yellow Solid NonMetallic NonSmooth.mat");
+                    }
+                    public static class Transparent_NonMetallic_NonSmooth
+                    {
+                        public static readonly Material Black_Transparent_NonMetallic_NonSmooth = AssetDatabase.LoadAssetAtPath<Material>("Assets/Plugins/JazzyLucas/Core/Materials/Transparent NonMetallic NonSmooth/Black Transparent NonMetallic NonSmooth.mat");
+                        public static readonly Material Blue_Transparent_NonMetallic_NonSmooth = AssetDatabase.LoadAssetAtPath<Material>("Assets/Plugins/JazzyLucas/Core/Materials/Transparent NonMetallic NonSmooth/Blue Transparent NonMetallic NonSmooth.mat");
+                        public static readonly Material Gray_Transparent_NonMetallic_NonSmooth = AssetDatabase.LoadAssetAtPath<Material>("Assets/Plugins/JazzyLucas/Core/Materials/Transparent NonMetallic NonSmooth/Gray Transparent NonMetallic NonSmooth.mat");
+                        public static readonly Material Green_Transparent_NonMetallic_NonSmooth = AssetDatabase.LoadAssetAtPath<Material>("Assets/Plugins/JazzyLucas/Core/Materials/Transparent NonMetallic NonSmooth/Green Transparent NonMetallic NonSmooth.mat");
+                        public static readonly Material Orange_Transparent_NonMetallic_NonSmooth = AssetDatabase.LoadAssetAtPath<Material>("Assets/Plugins/JazzyLucas/Core/Materials/Transparent NonMetallic NonSmooth/Orange Transparent NonMetallic NonSmooth.mat");
+                        public static readonly Material Purple_Transparent_NonMetallic_NonSmooth = AssetDatabase.LoadAssetAtPath<Material>("Assets/Plugins/JazzyLucas/Core/Materials/Transparent NonMetallic NonSmooth/Purple Transparent NonMetallic NonSmooth.mat");
+                        public static readonly Material Red_Transparent_NonMetallic_NonSmooth = AssetDatabase.LoadAssetAtPath<Material>("Assets/Plugins/JazzyLucas/Core/Materials/Transparent NonMetallic NonSmooth/Red Transparent NonMetallic NonSmooth.mat");
+                        public static readonly Material White_Transparent_NonMetallic_NonSmooth = AssetDatabase.LoadAssetAtPath<Material>("Assets/Plugins/JazzyLucas/Core/Materials/Transparent NonMetallic NonSmooth/White Transparent NonMetallic NonSmooth.mat");
+                        public static readonly Material Yellow_Transparent_NonMetallic_NonSmooth = AssetDatabase.LoadAssetAtPath<Material>("Assets/Plugins/JazzyLucas/Core/Materials/Transparent NonMetallic NonSmooth/Yellow Transparent NonMetallic NonSmooth.mat");
+                    }
                 }
                 public static class Tooltips
                 {
@@ -43,8 +67,37 @@ public static class AssetReferences
     }
     public static class TextMesh_Pro
     {
+        public static class Fonts
+        {
+            public static readonly Font LiberationSans = AssetDatabase.LoadAssetAtPath<Font>("Assets/TextMesh Pro/Fonts/LiberationSans.ttf");
+        }
         public static class Resources
         {
+            public static class Fonts___Materials
+            {
+                public static readonly Material LiberationSans_SDF___Drop_Shadow = AssetDatabase.LoadAssetAtPath<Material>("Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Drop Shadow.mat");
+                public static readonly Material LiberationSans_SDF___Outline = AssetDatabase.LoadAssetAtPath<Material>("Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF - Outline.mat");
+            }
+        }
+        public static class Shaders
+        {
+            public static readonly Shader TMP_Bitmap_Custom_Atlas = AssetDatabase.LoadAssetAtPath<Shader>("Assets/TextMesh Pro/Shaders/TMP_Bitmap-Custom-Atlas.shader");
+            public static readonly Shader TMP_Bitmap_Mobile = AssetDatabase.LoadAssetAtPath<Shader>("Assets/TextMesh Pro/Shaders/TMP_Bitmap-Mobile.shader");
+            public static readonly Shader TMP_Bitmap = AssetDatabase.LoadAssetAtPath<Shader>("Assets/TextMesh Pro/Shaders/TMP_Bitmap.shader");
+            public static readonly Shader TMP_SDF_Overlay = AssetDatabase.LoadAssetAtPath<Shader>("Assets/TextMesh Pro/Shaders/TMP_SDF Overlay.shader");
+            public static readonly Shader TMP_SDF_SSD = AssetDatabase.LoadAssetAtPath<Shader>("Assets/TextMesh Pro/Shaders/TMP_SDF SSD.shader");
+            public static readonly Shader TMP_SDF_Mobile_Masking = AssetDatabase.LoadAssetAtPath<Shader>("Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Masking.shader");
+            public static readonly Shader TMP_SDF_Mobile_Overlay = AssetDatabase.LoadAssetAtPath<Shader>("Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile Overlay.shader");
+            public static readonly Shader TMP_SDF_Mobile_SSD = AssetDatabase.LoadAssetAtPath<Shader>("Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile SSD.shader");
+            public static readonly Shader TMP_SDF_Mobile = AssetDatabase.LoadAssetAtPath<Shader>("Assets/TextMesh Pro/Shaders/TMP_SDF-Mobile.shader");
+            public static readonly Shader TMP_SDF_Surface_Mobile = AssetDatabase.LoadAssetAtPath<Shader>("Assets/TextMesh Pro/Shaders/TMP_SDF-Surface-Mobile.shader");
+            public static readonly Shader TMP_SDF_Surface = AssetDatabase.LoadAssetAtPath<Shader>("Assets/TextMesh Pro/Shaders/TMP_SDF-Surface.shader");
+            public static readonly Shader TMP_SDF = AssetDatabase.LoadAssetAtPath<Shader>("Assets/TextMesh Pro/Shaders/TMP_SDF.shader");
+            public static readonly Shader TMP_Sprite = AssetDatabase.LoadAssetAtPath<Shader>("Assets/TextMesh Pro/Shaders/TMP_Sprite.shader");
+        }
+        public static class Sprites
+        {
+            public static readonly Texture2D EmojiOne = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/TextMesh Pro/Sprites/EmojiOne.png");
         }
     }
     public static class _Sample
@@ -57,9 +110,6 @@ public static class AssetReferences
                 public static readonly GameObject TrianglePatternTile = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_Sample/Prefabs/Terrain Testing/TrianglePatternTile.prefab");
             }
             public static readonly GameObject CustomTooltip_Prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_Sample/Prefabs/CustomTooltip Prefab.prefab");
-        }
-        public static class Scripts
-        {
         }
     }
 }
