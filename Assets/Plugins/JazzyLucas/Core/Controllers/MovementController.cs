@@ -19,6 +19,7 @@ namespace JazzyLucas.Core
         [field: Header("Debugging")]
         [field: SerializeField] public bool ShowDebugInOnGUI { get; private set; } = false;
 
+        // Readable state fields for things like animators
         [field: HideInInspector] public Vector3 Direction => lastMovementDirection;
         [field: HideInInspector] public bool IsWalking { get; private set; }
         [field: HideInInspector] public bool IsRunning { get; private set; }
@@ -30,7 +31,7 @@ namespace JazzyLucas.Core
         private MovementState currentState;
 
         private Vector3 velocity = Vector3.zero;
-        private Vector3 lastMovementDirection = Vector3.zero; // Persist the last movement direction
+        private Vector3 lastMovementDirection = Vector3.zero;
 
         private void OnGUI()
         {
@@ -94,11 +95,11 @@ namespace JazzyLucas.Core
 
             if (CharacterController.isGrounded)
             {
-                velocity.y = -2f; // Ensure the player sticks to the ground.
+                velocity.y = -2f;
                 if (input.isJumping)
                 {
                     velocity.y = Mathf.Sqrt(jumpForce * -2f * Physics.gravity.y);
-                    IsInAir = true; // Player is jumping
+                    IsInAir = true;
                 }
                 else
                 {
@@ -112,7 +113,6 @@ namespace JazzyLucas.Core
 
             CharacterController.Move((moveDirection + velocity) * Time.deltaTime);
 
-            // Update last movement direction for debugging purposes
             if (moveDirection != Vector3.zero)
             {
                 lastMovementDirection = moveDirection;
@@ -131,7 +131,6 @@ namespace JazzyLucas.Core
 
             CharacterController.Move((moveDirection + Vector3.up * velocity.y) * Time.deltaTime);
 
-            // Update last movement direction for debugging purposes
             if (moveDirection != Vector3.zero)
             {
                 lastMovementDirection = moveDirection;
@@ -140,11 +139,9 @@ namespace JazzyLucas.Core
 
         private Vector3 CalculateMovementDirection(MovementInputData input)
         {
-            // Get forward and right directions from the camera, but ignore the y component to lock to XZ plane
             var forwardMovement = Vector3.ProjectOnPlane(DirectionTransform.forward, Vector3.up).normalized * input.moveInput.y;
             var rightMovement = Vector3.ProjectOnPlane(DirectionTransform.right, Vector3.up).normalized * input.moveInput.x;
 
-            // Combine and normalize the movement direction
             var moveDirection = (forwardMovement + rightMovement).normalized;
 
             return moveDirection;

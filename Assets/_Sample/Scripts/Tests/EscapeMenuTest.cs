@@ -5,29 +5,33 @@ using JazzyLucas.Core;
 using JazzyLucas.Core.Input;
 using UnityEngine;
 
-public class EscapeMenuTest : UIMonoBehavior
+namespace JazzyLucas.Sample
 {
-    [field: SerializeField] public bool OpenEscapeMenuOnAwake { get; private set; } = false;
-    
-    private InputPoller inputPoller;
-    
-    protected override void OnAwake()
+    public class EscapeMenuTest : UIMonoBehavior
     {
-        base.OnAwake();
-        inputPoller = new();
-
-        Cursor.lockState = OpenEscapeMenuOnAwake ? CursorLockMode.None : CursorLockMode.Locked;
-        SetVisibility(OpenEscapeMenuOnAwake);
-    }
-
-    private void Update()
-    {
-        var input = inputPoller.PollInput();
-
-        if (input.PauseEscape == InputState.Pressed)
+        [field: SerializeField] public bool OpenEscapeMenuOnAwake { get; private set; } = false;
+    
+        private InputPoller inputPoller;
+    
+        protected override void OnAwake()
         {
-            SetVisibility(!IsVisible);
-            Cursor.lockState = IsVisible ? CursorLockMode.None : CursorLockMode.Locked;
+            base.OnAwake();
+            inputPoller = new();
+
+            Cursor.lockState = OpenEscapeMenuOnAwake ? CursorLockMode.None : CursorLockMode.Locked;
+            SetVisibility(OpenEscapeMenuOnAwake);
+        }
+
+        private void Update()
+        {
+            var input = inputPoller.PollInput();
+
+            if (input.PauseEscape == InputState.Pressed)
+            {
+                SetVisibility(!IsVisible);
+                Cursor.lockState = IsVisible ? CursorLockMode.None : CursorLockMode.Locked;
+            }
         }
     }
+
 }

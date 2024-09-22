@@ -13,19 +13,23 @@ namespace JazzyLucas.Core
         [field: SerializeField] public MovementController MovementController { get; private set; }
         public bool MovCont_IsInAir => MovementController.IsInAir || MovementController.IsJumping;
 
-        private Collider currentCollider;
+        [field: Header("Debugging")]
+        [field: Tooltip("Draw a LineRenderer Path as it follows the transform of a grounded-to Transform.")]
+        [field: SerializeField] public bool Debug_DrawPath { get; private set; } = false;
+        [field: SerializeField] public bool ShowDebugInOnGUI { get; private set; } = false;
 
+        // Readable state fields for things like animators
+        [field: HideInInspector] public bool IsGroundedOnPlatform { get; private set; }
+        [field: HideInInspector] public bool IsMovingOnPlatform { get; private set; }
+        [field: HideInInspector] public bool IsStandingStillOnPlatform { get; private set; }
+        
         [field: HideInInspector] public bool IsCurrentlyColliding => currentCollider != null;
-
         [field: HideInInspector] public Vector3 Latest_Collider_Position { get; private set; }
         [field: HideInInspector] public Vector3 Previous_Collider_Position { get; private set; }
         [field: HideInInspector] public Vector3 DistanceFromLastProcess => Latest_Collider_Position - Previous_Collider_Position;
 
+        private Collider currentCollider;
         private bool isFirstFrameAfterGrounding = false;
-
-        [field: Header("Debugging")]
-        [field: Tooltip("Draw a LineRenderer Path as it follows the transform of a grounded-to Transform.")]
-        [field: SerializeField] public bool Debug_DrawPath { get; private set; } = false;
 
         public override void Init()
         {
@@ -40,10 +44,29 @@ namespace JazzyLucas.Core
             Overlap.OnOverlapStay += OnOverlapStay;
             Overlap.OnOverlapExit += OnOverlapExit;
         }
+        
+        private void OnGUI()
+        {
+            if (!ShowDebugInOnGUI)
+                return;
+
+            GUIStyle labelStyle = new(GUI.skin.label)
+            {
+                fontSize = 20,
+                normal = new() { textColor = Color.cyan }
+            };
+    
+            const int yOffset = 180;
+            GUI.Label(new(10, yOffset, 300, 25), $"IsGroundedOnPlatform: {IsGroundedOnPlatform}", labelStyle);
+            GUI.Label(new(10, yOffset + 30, 300, 25), $"IsMovingOnPlatform: {IsMovingOnPlatform}", labelStyle);
+            GUI.Label(new(10, yOffset + 60, 300, 25), $"IsStandingStillOnPlatform: {IsStandingStillOnPlatform}", labelStyle);
+            GUI.Label(new(10, yOffset + 90, 300, 25), $"IsCurrentlyColliding: {IsCurrentlyColliding}", labelStyle);
+        }
 
         protected override void Process()
         {
             Overlap.DetectOverlap();
+            UpdateStateBooleans();
         }
 
         private void OnOverlapEnter(Collider other)
@@ -98,6 +121,13 @@ namespace JazzyLucas.Core
             }
         }
 
+        private void OnDestroy()
+        {
+            Overlap.OnOverlapEnter -= OnOverlapEnter;
+            Overlap.OnOverlapStay -= OnOverlapStay;
+            Overlap.OnOverlapExit -= OnOverlapExit;
+        }
+
         private void InitializeColliderPositions()
         {
             if (currentCollider != null)
@@ -112,11 +142,11 @@ namespace JazzyLucas.Core
             currentCollider = null;
         }
 
-        private void OnDestroy()
+        private void UpdateStateBooleans()
         {
-            Overlap.OnOverlapEnter -= OnOverlapEnter;
-            Overlap.OnOverlapStay -= OnOverlapStay;
-            Overlap.OnOverlapExit -= OnOverlapExit;
+            IsGroundedOnPlatform = currentCollider != null && !MovCont_IsInAir;
+            IsMovingOnPlatform = IsGroundedOnPlatform && DistanceFromLastProcess.sqrMagnitude > Mathf.Epsilon;
+            IsStandingStillOnPlatform = IsGroundedOnPlatform && DistanceFromLastProcess.sqrMagnitude <= Mathf.Epsilon;
         }
     }
 }

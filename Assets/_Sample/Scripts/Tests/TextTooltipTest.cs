@@ -4,25 +4,28 @@ using JazzyLucas.Core;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class TextTooltipTest : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+namespace JazzyLucas.Sample
 {
-    private TooltipsManager tooltipsManager => (TooltipsManager)TooltipsManager.Instance;
-    private TooltipsContainer tooltipsContainer => tooltipsManager.Container;
+    public class TextTooltipTest : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+    {
+        private TooltipsManager tooltipsManager => (TooltipsManager)TooltipsManager.Instance;
+        private TooltipsContainer tooltipsContainer => tooltipsManager.Container;
     
-    private TextTooltip activeTooltip;
+        private TextTooltip activeTooltip;
 
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        activeTooltip = tooltipsManager.CreateTextTooltip();
-        activeTooltip.Text.text = "Your tooltip text here.";
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        if (activeTooltip != null)
+        public void OnPointerEnter(PointerEventData eventData)
         {
-            tooltipsManager.ReturnTooltip(activeTooltip);
-            activeTooltip = null;
+            activeTooltip = tooltipsManager.CreateTextTooltip();
+            activeTooltip.Text.text = "Your tooltip text here.";
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            if (activeTooltip != null)
+            {
+                tooltipsManager.ReturnTooltip(activeTooltip);
+                activeTooltip = null;
+            }
         }
     }
 }

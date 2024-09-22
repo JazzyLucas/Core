@@ -1448,7 +1448,7 @@ MonoBehaviour:
   <runSpeed>k__BackingField: 6
   <jumpForce>k__BackingField: 0.8
   <flySpeed>k__BackingField: 12
-  <ShowDebugInOnGUI>k__BackingField: 1
+  <ShowDebugInOnGUI>k__BackingField: 0
 --- !u!114 &1473935254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1519,6 +1519,7 @@ MonoBehaviour:
   <CharacterController>k__BackingField: {fileID: 383854458}
   <MovementController>k__BackingField: {fileID: 1473935253}
   <Debug_DrawPath>k__BackingField: 0
+  <ShowDebugInOnGUI>k__BackingField: 0
 --- !u!1 &1585721629
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,30 +5,33 @@ using JazzyLucas.Core;
 using JazzyLucas.Core.Input;
 using UnityEngine;
 
-public class HitscanTest : MonoBehaviour
+namespace JazzyLucas.Sample
 {
-    [field: SerializeField] public HitscanReceiver Receiver { get; private set; }
-    [field: SerializeField] public Renderer Renderer { get; private set; }
-    [field: SerializeField] public Material HoveredMat { get; private set; }
-    [field: SerializeField] public Material ClickingMat { get; private set; }
-    
-    [field: HideInInspector] public Material NormalMat { get; private set; }
-
-    [field: HideInInspector] public bool IsHitscannedOn { get; private set; } = false;
-
-    private void Awake()
+    public class HitscanTest : MonoBehaviour
     {
-        NormalMat = Renderer.material;
+        [field: SerializeField] public HitscanReceiver Receiver { get; private set; }
+        [field: SerializeField] public Renderer Renderer { get; private set; }
+        [field: SerializeField] public Material HoveredMat { get; private set; }
+        [field: SerializeField] public Material ClickingMat { get; private set; }
+    
+        [field: HideInInspector] public Material NormalMat { get; private set; }
 
-        Receiver.OnHitscan += (data) =>
+        [field: HideInInspector] public bool IsHitscannedOn { get; private set; } = false;
+
+        private void Awake()
         {
-            Renderer.material = HoveredMat;
-            if (data.LeftClick == InputState.Held || data.RightClick == InputState.Held)
-                Renderer.material = ClickingMat;
-        };
-        Receiver.OnUnHitscan += () =>
-        {
-            Renderer.material = NormalMat;
-        };
+            NormalMat = Renderer.material;
+
+            Receiver.OnHitscan += (data) =>
+            {
+                Renderer.material = HoveredMat;
+                if (data.LeftClick == InputState.Held || data.RightClick == InputState.Held)
+                    Renderer.material = ClickingMat;
+            };
+            Receiver.OnUnHitscan += () =>
+            {
+                Renderer.material = NormalMat;
+            };
+        }
     }
 }

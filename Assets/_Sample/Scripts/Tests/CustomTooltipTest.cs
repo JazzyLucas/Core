@@ -4,26 +4,29 @@ using JazzyLucas.Core;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class CustomTooltipTest : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+namespace JazzyLucas.Sample
 {
-    [field: SerializeField] public GameObject CustomTooltipPrefab { get; private set; }
-    
-    private TooltipsManager tooltipsManager => (TooltipsManager)TooltipsManager.Instance;
-    private TooltipsContainer tooltipsContainer => tooltipsManager.Container;
-    
-    private Tooltip activeTooltip;
-
-    public void OnPointerEnter(PointerEventData eventData)
+    public class CustomTooltipTest : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
-        activeTooltip = tooltipsManager.CreateCustomTooltip(CustomTooltipPrefab);
-    }
+        [field: SerializeField] public GameObject CustomTooltipPrefab { get; private set; }
+        
+        private TooltipsManager tooltipsManager => (TooltipsManager)TooltipsManager.Instance;
+        private TooltipsContainer tooltipsContainer => tooltipsManager.Container;
+        
+        private Tooltip activeTooltip;
 
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        if (activeTooltip != null)
+        public void OnPointerEnter(PointerEventData eventData)
         {
-            tooltipsManager.ReturnTooltip(activeTooltip);
-            activeTooltip = null;
+            activeTooltip = tooltipsManager.CreateCustomTooltip(CustomTooltipPrefab);
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            if (activeTooltip != null)
+            {
+                tooltipsManager.ReturnTooltip(activeTooltip);
+                activeTooltip = null;
+            }
         }
     }
 }

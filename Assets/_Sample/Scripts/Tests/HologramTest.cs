@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using JazzyLucas.Core;
 using UnityEngine;
 
-public class HologramTest : MonoBehaviour
+namespace JazzyLucas.Sample
 {
-    private HologramsManager hologramsManager => (HologramsManager)HologramsManager.Instance;
-    private HologramsContainer hologramsContainer => hologramsManager.Container;
-
-    [field: SerializeField] public Transform hologramPoint { get; private set; }
-    
-    [field: HideInInspector] private TextHologram textHologram { get; set; }
-
-    private void Start()
+    public class HologramTest : MonoBehaviour
     {
-        textHologram = hologramsManager.CreateTextHologram(hologramPoint);
+        private HologramsManager hologramsManager => (HologramsManager)HologramsManager.Instance;
+        private HologramsContainer hologramsContainer => hologramsManager.Container;
+
+        [field: SerializeField] public Transform hologramPoint { get; private set; }
+    
+        [field: HideInInspector] private TextHologram textHologram { get; set; }
+
+        private void Start()
+        {
+            textHologram = hologramsManager.CreateTextHologram(hologramPoint);
+        }
     }
 }
