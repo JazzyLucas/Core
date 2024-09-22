@@ -23,6 +23,10 @@ namespace JazzyLucas.Core
 
         private bool isFirstFrameAfterGrounding = false;
 
+        [field: Header("Debugging")]
+        [field: Tooltip("Draw a LineRenderer Path as it follows the transform of a grounded-to Transform.")]
+        [field: SerializeField] public bool Debug_DrawPath { get; private set; } = false;
+
         public override void Init()
         {
             base.Init();
@@ -49,7 +53,8 @@ namespace JazzyLucas.Core
                 currentCollider = other;
                 InitializeColliderPositions();
                 isFirstFrameAfterGrounding = true;
-                PathDrawer.StartPath(other.transform);
+                if (Debug_DrawPath)
+                    PathDrawer.StartPath(other.transform);
             }
         }
 
@@ -77,7 +82,8 @@ namespace JazzyLucas.Core
                 Previous_Collider_Position = Latest_Collider_Position;
                 Latest_Collider_Position = currentCollider.transform.position;
 
-                PathDrawer.UpdatePath(currentCollider.transform);
+                if (Debug_DrawPath)
+                    PathDrawer.UpdatePath(currentCollider.transform);
             }
         }
 
@@ -86,7 +92,8 @@ namespace JazzyLucas.Core
         {
             if (currentCollider == other)
             {
-                PathDrawer.ClearPath(other.transform);
+                if (Debug_DrawPath)
+                    PathDrawer.ClearPath(other.transform);
                 ResetCollision();
             }
         }
