@@ -71,7 +71,19 @@ namespace JazzyLucas.Core
 
         private void OnOverlapEnter(Collider other)
         {
-            if (currentCollider == null)
+            if (currentCollider != null && currentCollider != other)
+            {
+                if (Debug_DrawPath)
+                {
+                    PathDrawer.ClearPath(currentCollider.transform);
+                    PathDrawer.StartPath(other.transform);
+                }
+
+                currentCollider = other;
+                InitializeColliderPositions();
+                isFirstFrameAfterGrounding = true;
+            }
+            else if (currentCollider == null)
             {
                 currentCollider = other;
                 InitializeColliderPositions();
@@ -99,7 +111,6 @@ namespace JazzyLucas.Core
                 if (platformMovement.sqrMagnitude > Mathf.Epsilon)
                 {
                     CharacterController.Move(platformMovement);
-                    Debug.Log(platformMovement);
                 }
 
                 Previous_Collider_Position = Latest_Collider_Position;
