@@ -3,6 +3,7 @@
     "rootNamespace": "JazzyLucas.Editor",
     "references": [
         "GUID:617a9c18fe408e648ab957c0eba9a65c",
+        "GUID:2625969103d376547b187ee8bc76703e",
         "GUID:343deaaf83e0cee4ca978e7df0b80d21"
     ],
     "includePlatforms": [],

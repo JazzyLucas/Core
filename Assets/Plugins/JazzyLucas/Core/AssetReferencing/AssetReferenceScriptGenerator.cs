@@ -11,13 +11,13 @@ using UnityEngine.AI;
 using UnityEngine.Video;
 using L = JazzyLucas.Core.Utils.Logger;
 
-namespace JazzyLucas.Editor
+namespace JazzyLucas.Core
 {
     public class AssetReferenceScriptGenerator : UnityEditor.Editor
     {
-        private const string DEFAULT_CONFIG_SO_PATH = "Assets/Plugins/JazzyLucas/Editor/AssetReferenceScriptGeneratorConfig.asset";
+        private const string DEFAULT_CONFIG_SO_PATH = "Assets/Plugins/JazzyLucas/Core/AssetReferencing/AssetReferenceScriptGeneratorConfig.asset";
 
-        [MenuItem("Tools/JazzyLucas.Editor/Run Default GenerateAssetReferences")]
+        [MenuItem("Tools/JazzyLucas.Core/GenerateAssetReferences")]
         public static void GeneratePrefabReferences()
         {
             L.Log($"Running Default GeneratePrefabReferences()");
@@ -38,13 +38,10 @@ namespace JazzyLucas.Editor
             string fileName = config.FileName;
             string className = config.ClassName;
 
-            L.Log($"Starting generation of prefab references from {assetsPath} to {outputPath}");
-
             if (!Directory.Exists(outputPath))
-            {
                 Directory.CreateDirectory(outputPath);
-                L.Log($"Created output directory at {outputPath}");
-            }
+            
+            L.Log($"Starting generation of prefab references from {assetsPath} to {outputPath}");
 
             var fileContents = GenerateFileContents(config, className, assetsPath);
 
@@ -142,7 +139,7 @@ namespace JazzyLucas.Editor
 
                 config = CreateInstance<AssetReferenceScriptGeneratorConfigSO>();
                 AssetDatabase.CreateAsset(config, DEFAULT_CONFIG_SO_PATH);
-                AssetDatabase.RenameAsset(DEFAULT_CONFIG_SO_PATH, "DefaultAssetReferenceScriptGeneratorConfig");
+                AssetDatabase.RenameAsset(DEFAULT_CONFIG_SO_PATH, "AssetReferenceScriptGeneratorConfig"); // TODO: just get the name by trimming the end?
                 AssetDatabase.SaveAssets();
                 
                 L.Log($"Default config SO created at {DEFAULT_CONFIG_SO_PATH}");

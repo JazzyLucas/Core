@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
-using JazzyLucas.Core;
+using JazzyLucas.Packaging;
 using UnityEditor;
 using UnityEngine;
 
 namespace JazzyLucas.Editor
 {
-    [CustomEditor(typeof(AssetReferenceScriptGeneratorConfigSO))]
-    public class AssetReferenceScriptGeneratorConfigSOEditor : UnityEditor.Editor
+    [CustomEditor(typeof(PackageGeneratorConfigSO))]
+    public class PackageGeneratorConfigSOEditor : UnityEditor.Editor
     {
         public override void OnInspectorGUI()
         {

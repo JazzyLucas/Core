@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace JazzyLucas.Editor
+namespace JazzyLucas.Core
 {
-    [CreateAssetMenu(fileName = "AssetReferenceScriptGeneratorConfig", menuName = "JazzyLucas.Editor/AssetReferenceScriptGeneratorConfig")]
+    [CreateAssetMenu(fileName = "AssetReferenceScriptGeneratorConfig", menuName = "JazzyLucas.Core/AssetReferenceScriptGeneratorConfig")]
     public class AssetReferenceScriptGeneratorConfigSO : ScriptableObject
     {
         [field: Tooltip("Path to folder to recursively scan for assets.")]
