@@ -104,10 +104,15 @@ public static class AssetReferences
     {
         public static class Prefabs
         {
-            public static class Terrain_Testing
+            public static class Movement_Testing
             {
-                public static readonly GameObject CheckerboardTile = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_Sample/Prefabs/Terrain Testing/CheckerboardTile.prefab");
-                public static readonly GameObject TrianglePatternTile = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_Sample/Prefabs/Terrain Testing/TrianglePatternTile.prefab");
+                public static class Tiles
+                {
+                    public static readonly GameObject CheckerboardTile = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_Sample/Prefabs/Movement Testing/Tiles/CheckerboardTile.prefab");
+                    public static readonly GameObject TrianglePatternTile = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_Sample/Prefabs/Movement Testing/Tiles/TrianglePatternTile.prefab");
+                }
+                public static readonly GameObject AtoBMoving_Platform = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_Sample/Prefabs/Movement Testing/AtoBMoving Platform.prefab");
+                public static readonly GameObject Movement_Tests = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_Sample/Prefabs/Movement Testing/Movement Tests.prefab");
             }
             public static readonly GameObject CustomTooltip_Prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_Sample/Prefabs/CustomTooltip Prefab.prefab");
         }
