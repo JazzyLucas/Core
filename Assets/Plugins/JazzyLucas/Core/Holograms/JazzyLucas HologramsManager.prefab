@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4931973960881747422}
   - component: {fileID: 3866364843687191733}
   m_Layer: 0
-  m_Name: HologramsManager
+  m_Name: JazzyLucas HologramsManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

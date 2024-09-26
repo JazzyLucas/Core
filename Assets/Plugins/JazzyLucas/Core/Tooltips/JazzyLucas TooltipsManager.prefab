@@ -112,7 +112,7 @@ GameObject:
   - component: {fileID: 9076069592482307221}
   - component: {fileID: 4330870110151433778}
   m_Layer: 0
-  m_Name: TooltipsManager
+  m_Name: JazzyLucas TooltipsManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

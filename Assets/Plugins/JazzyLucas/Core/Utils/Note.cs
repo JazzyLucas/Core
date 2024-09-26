@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace JazzyLucas.Core
+namespace JazzyLucas.Core.Utils
 {
     [AddComponentMenu("JazzyLucas/Utilities/Note")]
     public class Note : MonoBehaviour
