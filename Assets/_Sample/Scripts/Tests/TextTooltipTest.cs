@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using JazzyLucas.Core;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace JazzyLucas.Sample
 {
