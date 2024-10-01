@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using JazzyLucas.Core.Utils;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,16 +17,24 @@ namespace JazzyLucas.Core
 
         private void Awake()
         {
-            originalAlpha = hoverGraphic.color.a;
-            UIUtil.SetGraphicAlpha(hoverGraphic, 0f);
-            hoverGraphic.gameObject.SetActive(false);
+            // Handle null checks for hoverGraphic and originalGraphic
+            if (hoverGraphic != null)
+            {
+                originalAlpha = hoverGraphic.color.a;
+                UIUtil.SetGraphicAlpha(hoverGraphic, 0f);
+                hoverGraphic.gameObject.SetActive(false);
+            }
 
             hoverable.OnHover += () =>
             {
                 if (coroutine != null)
                     StopCoroutine(coroutine);
 
-                hoverGraphic.gameObject.SetActive(true);
+                if (hoverGraphic != null)
+                {
+                    hoverGraphic.gameObject.SetActive(true);
+                }
+
                 coroutine = StartCoroutine(AnimateGraphicChange(originalGraphic, hoverGraphic, true));
             };
 
@@ -36,7 +43,11 @@ namespace JazzyLucas.Core
                 if (coroutine != null)
                     StopCoroutine(coroutine);
 
-                originalGraphic.gameObject.SetActive(true);
+                if (originalGraphic != null)
+                {
+                    originalGraphic.gameObject.SetActive(true);
+                }
+
                 coroutine = StartCoroutine(AnimateGraphicChange(hoverGraphic, originalGraphic, false));
             };
         }
@@ -44,25 +55,37 @@ namespace JazzyLucas.Core
         private IEnumerator AnimateGraphicChange(Graphic fadeOutGraphic, Graphic fadeInGraphic, bool isHovering)
         {
             var timeElapsed = 0f;
-            var fadeOutStartAlpha = fadeOutGraphic.color.a;
-            var fadeInTargetAlpha = originalAlpha;
+            var fadeOutStartAlpha = fadeOutGraphic != null ? fadeOutGraphic.color.a : 0f;
+            var fadeInTargetAlpha = fadeInGraphic != null ? originalAlpha : 0f;
 
             while (timeElapsed < animationDuration)
             {
-                float alpha = timeElapsed / animationDuration;
+                var alpha = timeElapsed / animationDuration;
 
-                UIUtil.SetGraphicAlpha(fadeOutGraphic, Mathf.Lerp(fadeOutStartAlpha, 0f, alpha));
-                UIUtil.SetGraphicAlpha(fadeInGraphic, Mathf.Lerp(0f, fadeInTargetAlpha, alpha));
+                if (fadeOutGraphic != null)
+                {
+                    UIUtil.SetGraphicAlpha(fadeOutGraphic, Mathf.Lerp(fadeOutStartAlpha, 0f, alpha));
+                }
+
+                if (fadeInGraphic != null)
+                {
+                    UIUtil.SetGraphicAlpha(fadeInGraphic, Mathf.Lerp(0f, fadeInTargetAlpha, alpha));
+                }
 
                 timeElapsed += Time.deltaTime;
                 yield return null;
             }
 
-            // Set final alpha values explicitly
-            UIUtil.SetGraphicAlpha(fadeOutGraphic, 0f);
-            UIUtil.SetGraphicAlpha(fadeInGraphic, fadeInTargetAlpha);
+            if (fadeOutGraphic != null)
+            {
+                UIUtil.SetGraphicAlpha(fadeOutGraphic, 0f);
+                fadeOutGraphic.gameObject.SetActive(false);
+            }
 
-            fadeOutGraphic.gameObject.SetActive(false);
+            if (fadeInGraphic != null)
+            {
+                UIUtil.SetGraphicAlpha(fadeInGraphic, fadeInTargetAlpha);
+            }
         }
     }
 }
