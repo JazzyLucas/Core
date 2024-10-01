@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using JazzyLucas.Core.Utils;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,30 +14,30 @@ namespace JazzyLucas.Core
         [field: SerializeField] public float animationDuration { get; private set; } = 0.2f;
 
         private Color originalColor;
-        private Coroutine colorChangeCoroutine;
+        private Coroutine coroutine;
 
         private void Awake()
         {
             originalColor = graphic.color;
-            // Preserve the transparency
-            var color = hoverColor;
-            color.a = graphic.color.a;
-            hoverColor = color;
+            // Have the hoverColor use the original alpha of the graphic
+            var newHoverColor = hoverColor;
+            newHoverColor.a = graphic.color.a;
+            hoverColor = newHoverColor;
 
             hoverable.OnHover += () =>
             {
-                if (colorChangeCoroutine != null)
-                    StopCoroutine(colorChangeCoroutine);
+                if (coroutine != null)
+                    StopCoroutine(coroutine);
 
-                colorChangeCoroutine = StartCoroutine(AnimateColorChange(graphic.color, hoverColor));
+                coroutine = StartCoroutine(AnimateColorChange(graphic.color, hoverColor));
             };
 
             hoverable.OnUnhover += () =>
             {
-                if (colorChangeCoroutine != null)
-                    StopCoroutine(colorChangeCoroutine);
+                if (coroutine != null)
+                    StopCoroutine(coroutine);
 
-                colorChangeCoroutine = StartCoroutine(AnimateColorChange(graphic.color, originalColor));
+                coroutine = StartCoroutine(AnimateColorChange(graphic.color, originalColor));
             };
         }
 

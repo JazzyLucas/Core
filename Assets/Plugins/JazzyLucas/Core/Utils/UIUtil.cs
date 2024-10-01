@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using L = JazzyLucas.Core.Utils.Logger;
 
 namespace JazzyLucas.Core.Utils
@@ -27,6 +28,16 @@ namespace JazzyLucas.Core.Utils
             }
             var screenPosition = cam.WorldToScreenPoint(target.position);
             rectTransform.position = screenPosition;
+        }
+
+        public static void SetGraphicAlpha(Graphic graphic, float alpha)
+        {
+            if (graphic != null)
+            {
+                Color color = graphic.color;
+                color.a = alpha;
+                graphic.color = color;
+            }
         }
     }
 }
