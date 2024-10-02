@@ -12,6 +12,10 @@ namespace JazzyLucas.Sample
 
         private void Awake()
         {
+            clickable.OnClick += () =>
+            {
+                Debug.Log("A click");
+            };
             clickable.OnLeftClick += () =>
             {
                 Debug.Log("Left click");

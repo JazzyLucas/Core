@@ -8,7 +8,9 @@ namespace JazzyLucas.Core
     public class Hoverable_ImageChange : MonoBehaviour
     {
         [field: SerializeField] public Hoverable hoverable { get; private set; }
+        [field: Tooltip("Can be null.")]
         [field: SerializeField] public Graphic originalGraphic { get; private set; }
+        [field: Tooltip("Can be null.")]
         [field: SerializeField] public Graphic hoverGraphic { get; private set; }
         [field: SerializeField] public float animationDuration { get; private set; } = 0.1f;
 
@@ -22,7 +24,6 @@ namespace JazzyLucas.Core
             {
                 originalAlpha = hoverGraphic.color.a;
                 UIUtil.SetGraphicAlpha(hoverGraphic, 0f);
-                hoverGraphic.gameObject.SetActive(false);
             }
 
             hoverable.OnHover += () =>
@@ -79,7 +80,6 @@ namespace JazzyLucas.Core
             if (fadeOutGraphic != null)
             {
                 UIUtil.SetGraphicAlpha(fadeOutGraphic, 0f);
-                fadeOutGraphic.gameObject.SetActive(false);
             }
 
             if (fadeInGraphic != null)

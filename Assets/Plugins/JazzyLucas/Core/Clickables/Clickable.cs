@@ -16,18 +16,19 @@ namespace JazzyLucas.Core
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            if (eventData.pointerClick)
-                OnClick?.Invoke();
             switch (eventData.button)
             {
                 case PointerEventData.InputButton.Left:
                     OnLeftClick?.Invoke();
+                    OnClick?.Invoke();
                     break;
                 case PointerEventData.InputButton.Right:
                     OnRightClick?.Invoke();
+                    OnClick?.Invoke();
                     break;
                 case PointerEventData.InputButton.Middle:
                     OnMiddleClick?.Invoke();
+                    OnClick?.Invoke();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
