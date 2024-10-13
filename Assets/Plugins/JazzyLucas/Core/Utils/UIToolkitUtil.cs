@@ -28,9 +28,9 @@ namespace JazzyLucas.Core.Utils
             }
         }
 
-        public static IEnumerable<Button> GetAllButtons(string tagName)
+        public static IEnumerable<UnityEngine.UI.Button> GetAllButtons(string tagName)
         {
-            return GameObject.FindGameObjectsWithTag(tagName).Select(obj => obj.GetComponent<Button>()).Where(button => button != null);
+            return GameObject.FindGameObjectsWithTag(tagName).Select(obj => obj.GetComponent<UnityEngine.UI.Button>()).Where(button => button != null);
         }
     }
 }
