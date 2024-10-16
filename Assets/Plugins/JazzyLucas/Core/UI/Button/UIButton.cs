@@ -9,7 +9,7 @@ namespace JazzyLucas.Core
     {
         [field: SerializeField] public Clickable Clickable { get; private set; }
         [field: SerializeField] public Hoverable Hoverable { get; private set; }
-        [field: SerializeField] public Graphic Icon { get; private set; }
+        [field: SerializeField] public Graphic Icon { get; set; }
         
         // TODO: is this just a more-or-less datastructure, or an actual behavior?
     }

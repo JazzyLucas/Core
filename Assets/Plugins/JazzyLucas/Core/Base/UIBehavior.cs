@@ -23,7 +23,12 @@ namespace JazzyLucas.Core
         {
             OnAwake();
         }
-        
+
+        private void Start()
+        {
+            OnStart();
+        }
+
         private void LateUpdate()
         {
             OnLateUpdate();
@@ -41,11 +46,16 @@ namespace JazzyLucas.Core
         }
 
         /// <summary>
+        /// Called in Unity's Start.
+        /// </summary>
+        protected virtual void OnStart() { }
+
+        /// <summary>
         /// Called in Unity's LateUpdate
         /// </summary>
         protected virtual void OnLateUpdate() { }
 
-        public void SetVisibility(bool value)
+        protected virtual void SetVisibility(bool value)
         {
             _canvasGroup.alpha = value ? 1 : 0;
             _canvasGroup.blocksRaycasts = value;

@@ -166,6 +166,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6407256143401621742}
+  - component: {fileID: 621091481435996587}
   - component: {fileID: 2482635192078600987}
   - component: {fileID: 4286414136848890523}
   - component: {fileID: 8204858179932208248}
@@ -195,6 +196,24 @@ Transform:
   - {fileID: 8111729581005421551}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &621091481435996587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3530773879865896582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 197275aa84e9852469f71c85f7c7681d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <MovementController>k__BackingField: {fileID: 2482635192078600987}
+  <ViewController>k__BackingField: {fileID: 4286414136848890523}
+  <PerspectiveController>k__BackingField: {fileID: 8204858179932208248}
+  <HitscanController>k__BackingField: {fileID: 5134810108283038471}
+  <PushController>k__BackingField: {fileID: 1158450392488995064}
+  <GroundingController>k__BackingField: {fileID: 6139141427397985960}
 --- !u!114 &2482635192078600987
 MonoBehaviour:
   m_ObjectHideFlags: 0
